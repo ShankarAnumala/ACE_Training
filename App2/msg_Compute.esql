@@ -1,0 +1,11 @@
+
+
+CREATE COMPUTE MODULE msg_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		SET Environment.id =InputRoot.XMLNSC.header.id ;	 
+		SET Environment.name =InputRoot.XMLNSC.header.name ;
+		SET Environment.company =InputRoot.XMLNSC.header.company ; 
+	END;
+END MODULE;

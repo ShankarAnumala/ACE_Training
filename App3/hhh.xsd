@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="Employee">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="FirstName"/>
+        <xsd:element ref="Surname"/>
+        <xsd:element ref="Id"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Organisation">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Employee"/>
+        <xsd:element ref="Address"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Address">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Locality"/>
+        <xsd:element ref="Town"/>
+        <xsd:element ref="State"/>
+        <xsd:element ref="Country"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Locality" type="xsd:string"/>
+  <xsd:element name="Town" type="xsd:string"/>
+  <xsd:element name="FirstName" type="xsd:string"/>
+  <xsd:element name="State" type="xsd:string"/>
+  <xsd:element name="Country" type="xsd:string"/>
+  <xsd:element name="Id" type="xsd:string"/>
+  <xsd:element name="Surname" type="xsd:string"/>
+</xsd:schema>

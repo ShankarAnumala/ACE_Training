@@ -1,0 +1,85 @@
+-- PATH com.dashenbank.genericfunctions;
+
+CREATE COMPUTE MODULE cbs_Compute
+	DECLARE rc BOOLEAN;
+	DECLARE LOG4J_PATH EXTERNAL CHARACTER;
+	DECLARE LOG4J_ERROR EXTERNAL CHARACTER;
+	DECLARE FILEDIRECTORY EXTERNAL CHARACTER;
+	
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL initLog4j(LOG4J_PATH) INTO rc;
+		IF (rc = TRUE) THEN
+		-- CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		ELSE
+			SET OutputRoot.SOAP.Body.Log.Message = LOG4J_ERROR;
+		END IF;
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+	    DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+        DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+	    DECLARE domainDataRef REFERENCE TO InputRoot.SOAP.Body;
+	    DECLARE domainName CHARACTER FIELDNAME(InputBody); 
+      --  DECLARE LOG CHARACTER getPayLoad(domainName,domainDataRef,encodeRef,ccidRef);
+        
+        CALL writeToLogFile(MessageFlowLabel,'CBS_BACKEND_LOG','INFO','..........CBS_BACKEND Flow is Started...........') INTO rc;
+	--	CALL writeToLogFile(MessageFlowLabel,'CBS_BACKEND_LOG','INFO','Payload data is: '||LOG) INTO rc;
+		
+		DECLARE Service_Name CHARACTER;           
+	    SET Service_Name = FIELDNAME(InputRoot.SOAP.Body.[<]);
+		
+		DECLARE FILENAME CHARACTER;
+
+		CASE
+		WHEN Service_Name='xxx_yyy' THEN
+		SET FILENAME = 'zzz.xml';
+		WHEN Service_Name='RTSERVICE' THEN
+		SET FILENAME = 'RTRES.xml';
+		WHEN Service_Name='CLOSEAMTBLK_FSFS' THEN
+		SET FILENAME = 'cbsresponse.xml';
+		WHEN Service_Name='DriverLookup' THEN
+		SET FILENAME = 'DriverLookupRES.xml';
+		WHEN Service_Name='SubmitPayment' THEN
+		SET FILENAME = 'SubmitPaymentRES.xml';
+		WHEN Service_Name='RegisterPenalty' THEN
+		SET FILENAME = 'RegisterPenaltyRES.xml';
+		WHEN Service_Name='GetTaxDuebalance' THEN
+		SET FILENAME = 'GetTaxDuebalanceRES.xml';
+		WHEN Service_Name='RetrievePenalty' THEN
+		SET FILENAME = 'RetrievePenaltyRES.xml';
+		WHEN Service_Name='FullStatement' THEN
+		SET FILENAME = 'FullStatementRES.xml';
+		ELSE
+		SET FILENAME = NULL;	
+		END CASE;
+		
+		SET OutputRoot = InputRoot;
+		SET OutputLocalEnvironment.Destination.File.Name = FILENAME;
+		SET OutputLocalEnvironment.Destination.File.Directory = FILEDIRECTORY;
+		
+	END;
+END MODULE;
+
+CREATE FUNCTION initLog4J (IN CONFIG_FILE_NAME CHARACTER) RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.ibm.broker.IAM3.Log4jNode.initLog4j";	
+	
+CREATE FUNCTION writeToLogFile(IN COMPONENT_NAME CHARACTER,
+IN LOGGERNAME CHARACTER,
+IN LEVEL CHARACTER,
+IN TEXT CHARACTER) RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.ibm.broker.IAM3.Log4jNode.log";		

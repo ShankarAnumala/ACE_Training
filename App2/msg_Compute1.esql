@@ -1,0 +1,11 @@
+
+
+CREATE COMPUTE MODULE msg_Compute1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+	SET OutputRoot.JSON.Data.id = Environment.id ; 
+	SET OutputRoot.JSON.Data.name = Environment.name ; 
+	SET OutputRoot.JSON.Data.company = Environment.company ;   
+	SET OutputRoot.JSON.Data.salary = InputRoot.XMLNSC.body.salary ; 
+	END;
+END MODULE;
