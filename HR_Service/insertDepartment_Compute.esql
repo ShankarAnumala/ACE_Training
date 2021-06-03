@@ -1,0 +1,33 @@
+
+
+CREATE COMPUTE MODULE insertDepartment_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE DEPTNO,MGRNO INTEGER;
+		DECLARE DEPTNAME,ADMRDEPT,LOCATION CHARACTER;  
+		SET DEPTNO = InputRoot.JSON.Data.department.DEPTNO;
+		SET MGRNO = InputRoot.JSON.Data.department.MGRNO;
+		SET DEPTNAME = InputRoot.JSON.Data.department.DEPTNAME;
+		SET ADMRDEPT = InputRoot.JSON.Data.department.ADMRDEPT;
+		SET LOCATION = InputRoot.JSON.Data.department.LOCATION;
+
+		PASSTHRU 'INSERT INTO system.DEPARTMENT VALUES(?,?,?,?,?)' TO Database.DBDSN VALUES(DEPTNO,DEPTNAME,MGRNO,ADMRDEPT,LOCATION);
+		SET OutputRoot.JSON.Data.result = 'Data is inserted';
+	END;
+END MODULE;

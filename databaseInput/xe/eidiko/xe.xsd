@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xe/eidiko" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" xmlns:xeeidiko="http://xe/eidiko">
+  <!-- Message definition generated from C:\Users\Administrator\IBM\ACET11\workspace\DB\xe.dbm -->
+
+<!-- Complex type for xe.EIDIKO.DEPARTMENT -->
+    <xsd:complexType name="DEPARTMENTType">
+    <xsd:sequence>
+      <xsd:element name="DEPTNO">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="3"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="DEPTNAME">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="36"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="MGRNO" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="6"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="ADMRDEPT">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="3"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="LOCATION" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="16"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.EIDIKO.DEPARTMENT -->
+    <xsd:element ibmSchExtn:docRoot="true" name="DEPARTMENT" type="xeeidiko:DEPARTMENTType"/>
+
+<!-- Complex type for xe.EIDIKO.EMP -->
+    <xsd:complexType name="EMPType">
+    <xsd:sequence>
+      <xsd:element name="EMPNO" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="EMPNAME" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="GENDER" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="AGE" nillable="true" type="xsd:float"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.EIDIKO.EMP -->
+    <xsd:element ibmSchExtn:docRoot="true" name="EMP" type="xeeidiko:EMPType"/>
+
+<!-- Complex type for xe.EIDIKO.EMPLOYEE -->
+    <xsd:complexType name="EMPLOYEEType">
+    <xsd:sequence>
+      <xsd:element name="EMPNO">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="6"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="FIRSTNME">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="12"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="MIDINIT" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="LASTNAME">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="15"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="WORKDEPT" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="3"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="PHONENO" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="4"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="HIREDATE" nillable="true" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="JOB" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="8"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="EDLEVEL" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="SEX" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="BIRTHDATE" nillable="true" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="SALARY" nillable="true" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="BONUS" nillable="true" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="COMM" nillable="true" type="xsd:float"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.EIDIKO.EMPLOYEE -->
+    <xsd:element ibmSchExtn:docRoot="true" name="EMPLOYEE" type="xeeidiko:EMPLOYEEType"/>
+
+<!-- Complex type for xe.EIDIKO.EMPLOYEES -->
+    <xsd:complexType name="EMPLOYEESType">
+    <xsd:sequence>
+      <xsd:element name="EID">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="ENAME" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="DESIGNATION" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="ADDRESS" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.EIDIKO.EMPLOYEES -->
+    <xsd:element ibmSchExtn:docRoot="true" name="EMPLOYEES" type="xeeidiko:EMPLOYEESType"/>
+
+<!-- Complex type for xe.EIDIKO.EMP_EVENT -->
+    <xsd:complexType name="EMP_EVENTType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="EVENTID" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="EID" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="EVENT_DESC" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.EIDIKO.EMP_EVENT -->
+    <xsd:element ibmSchExtn:docRoot="true" name="EMP_EVENT" type="xeeidiko:EMP_EVENTType"/>
+</xsd:schema>

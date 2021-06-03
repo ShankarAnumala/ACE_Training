@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmDatabaseRoute.msgnode="ComIbmDatabaseRoute.msgnode" xmlns:ComIbmWSInput.msgnode="ComIbmWSInput.msgnode" xmlns:ComIbmWSReply.msgnode="ComIbmWSReply.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="route_1.msgflow" nsPrefix="route_1.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="route_1" bundleName="route_1" pluginId="dbroute"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/dbroute/icons/full/obj16/route_1.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/dbroute/icons/full/obj30/route_1.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmDatabaseRoute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="403,111" dataSourceName="ORADSN" sqlQuery="SELECT TABLE1.ID, TABLE1.ADDR&#xA;FROM TABLE1&#xA;WHERE TABLE1.NAME = ?&#xA;ORDER BY TABLE1.ID ASC, TABLE1.ADDR ASC" tableNameComboValues="0,0,0,0,0,0,0,0~TABLE1" columnNameComboValues="2,0,3,0,0,0,0,0~ADDR,I,ID,NAME" operatorComboValues="0,0,2,0,0,0,0,0~=" valueTypeComboValues="0,0,2,0,0,0,0,0~Element">
+        <outTerminals terminalNodeID="Match" dynamic="true" label="Match"/>
+        <outTerminals terminalNodeID="out" dynamic="true" label="out"/>
+        <outTerminals terminalNodeID="out1" dynamic="true" label="out1"/>
+        <translation xmi:type="utility:ConstantString" string="Database Route"/>
+        <queryElements tableName="TABLE1" columnName="ID" operator="ASC" valueType="None" value="None"/>
+        <queryElements tableName="TABLE1" columnName="ADDR" operator="ASC" valueType="None" value="None"/>
+        <queryElements tableName="TABLE1" columnName="NAME" operator="=" valueType="Element" value="$Body/TABLE1/NAME"/>
+        <filterTable filterPattern="normalize-space($TABLE1_NAME)='SHANKAR'" routingOutputTerminal="out"/>
+        <filterTable filterPattern="normalize-space($TABLE1_NAME)='ANUMALA SHANKAR'" routingOutputTerminal="out1"/>
+      </nodes>
+      <nodes xmi:type="ComIbmWSInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="93,96" URLSpecifier="/route_1" messageDomainProperty="XMLNSC">
+        <translation xmi:type="utility:ConstantString" string="HTTP Input"/>
+      </nodes>
+      <nodes xmi:type="ComIbmWSReply.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="631,114">
+        <translation xmi:type="utility:ConstantString" string="HTTP Reply"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.default" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.keyNotFound" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_6" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="out1" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_7" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="Match" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_8" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

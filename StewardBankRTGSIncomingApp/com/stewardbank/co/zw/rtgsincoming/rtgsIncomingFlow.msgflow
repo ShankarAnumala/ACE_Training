@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmFileInput.msgnode="ComIbmFileInput.msgnode" xmlns:ComIbmFileOutput.msgnode="ComIbmFileOutput.msgnode" xmlns:ComIbmMQOutput.msgnode="ComIbmMQOutput.msgnode" xmlns:ComIbmResetContentDescriptor.msgnode="ComIbmResetContentDescriptor.msgnode" xmlns:com_stewardbank_co_zw_common_exceptionhandling_exceptionHandlingSubFlow.subflow="com/stewardbank/co/zw/common/exceptionhandling/exceptionHandlingSubFlow.subflow"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow.msgflow" nsPrefix="com_stewardbank_co_zw_rtgsincoming_rtgsIncomingFlow.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.LOG_CONFIG_PATH" name="LOG_CONFIG_PATH" defaultValueLiteral="/log/log4j/Log4jConfigurationFile.xml">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.LOG4J_INIT_ERROR" name="LOG4J_INIT_ERROR" defaultValueLiteral="[Log4j]Initializing the log4j Error">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.SB_EXCQ" name="SB_EXCQ" defaultValueLiteral="SB_EXCQ">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.ERROR_AUDIT_Q" name="ERROR_AUDIT_Q" defaultValueLiteral="ERR_LOG_SB_REQ">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.IsLogRequired" name="IsLogRequired" defaultValueLiteral="Y">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.ZSS_REQ" name="ZSS_REQ" defaultValueLiteral="RTGS_INCOMING_SB_ZSS_REQ">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.T24_REQ" name="T24_REQ" defaultValueLiteral="RTGS_INCOMING_SB_T24_REQ">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.DSN" name="DSN" defaultValueLiteral="ORADSN">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.DBFailure" name="DBFailure" defaultValueLiteral="/var/BATCH/Backup/RTGSIncoming/DBFailure">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.FormatFailure" name="FormatFailure" defaultValueLiteral="/var/BATCH/Backup/RTGSIncoming/FormatFailure">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.RTGS_INCOMING_SB_Q" name="RTGS_INCOMING_SB_Q" defaultValueLiteral="RTGS_INCOMING_SB_Q">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <translation xmi:type="utility:TranslatableString" key="rtgsIncomingFlow" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/StewardBankRTGSIncomingApp/icons/full/obj16/rtgsIncomingFlow.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/StewardBankRTGSIncomingApp/icons/full/obj30/rtgsIncomingFlow.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="592,98" destinationMode="list">
+        <translation xmi:type="utility:ConstantString" string="ResponseQ"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="187,32" computeExpression="esql://routine/com.stewardbank.co.zw.rtgsincoming#rtgsIncomingFlow_GenerateMt103Req.Main" computeMode="destinationAndMessage">
+        <translation xmi:type="utility:ConstantString" string="ConvertBLOBToMt103"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="418,45" dataSource="ORADSN" computeExpression="esql://routine/com.stewardbank.co.zw.rtgsincoming#rtgsIncomingFlow_RouteToT24orZss.Main" computeMode="destinationAndMessage">
+        <translation xmi:type="utility:ConstantString" string="RoutingtoT24/Zss"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="380,155" computeExpression="esql://routine/com.stewardbank.co.zw.rtgsincoming#rtgsIncomingFlow__GenerateExceptionDetails.Main" computeMode="destinationAndMessage">
+        <translation xmi:type="utility:ConstantString" string="GeneratingExceptionDetails"/>
+      </nodes>
+      <nodes xmi:type="ComIbmFileInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_5" location="38,110" inputDirectory="/var/DEV_TESTING/Stewardbank/ACE/RtgsIncoming" filenamePattern="STPLINK*" processedFileAction="moveToArchiveWithTimestamp" waitInterval="1" fileFtp="true" fileFtpServer="{ESBFTPPolicies}:RTGSIncoming" fileFtpDirectory="" fileFtpTransferMode="ASCII" fileFtpScanDelay="10">
+        <translation xmi:type="utility:ConstantString" string="Fectching Mt103 form Remote"/>
+      </nodes>
+      <nodes xmi:type="ComIbmResetContentDescriptor.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_6" location="322,81" messageDomain="DFDL" resetMessageDomain="true" messageSet="{MT103}" resetMessageSet="true" messageType="{}:MT103" validateTiming="immediate" validateMaster="contentAndValue">
+        <translation xmi:type="utility:ConstantString" string="CheckMt103"/>
+      </nodes>
+      <nodes xmi:type="com_stewardbank_co_zw_common_exceptionhandling_exceptionHandlingSubFlow.subflow:FCMComposite_1" xmi:id="FCMComposite_1_7" location="174,160">
+        <translation xmi:type="utility:ConstantString" string="exceptionHandlingSubFlow"/>
+      </nodes>
+      <nodes xmi:type="ComIbmFileOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_8" location="591,160">
+        <translation xmi:type="utility:ConstantString" string="DropsReprocessingFiles"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_6" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_6" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_6" targetNode="FCMComposite_1_7" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.catch" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_7" targetNode="FCMComposite_1_7" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_8" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_7" sourceTerminalName="OutTerminal.Output" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_9" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_8" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out1" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.LOG_CONFIG_PATH">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.LOG_CONFIG_PATH" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+        <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.LOG4J_INIT_ERROR">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.LOG4J_INIT_ERROR" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+          <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.SB_EXCQ">
+            <propertyName xmi:type="utility:TranslatableString" key="Property.SB_EXCQ" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+            <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.ERROR_AUDIT_Q">
+              <propertyName xmi:type="utility:TranslatableString" key="Property.ERROR_AUDIT_Q" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+              <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.IsLogRequired">
+                <propertyName xmi:type="utility:TranslatableString" key="Property.IsLogRequired" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.ZSS_REQ">
+                  <propertyName xmi:type="utility:TranslatableString" key="Property.ZSS_REQ" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                  <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.T24_REQ">
+                    <propertyName xmi:type="utility:TranslatableString" key="Property.T24_REQ" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                    <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.DSN">
+                      <propertyName xmi:type="utility:TranslatableString" key="Property.DSN" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                      <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.DBFailure">
+                        <propertyName xmi:type="utility:TranslatableString" key="Property.DBFailure" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                        <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.FormatFailure">
+                          <propertyName xmi:type="utility:TranslatableString" key="Property.FormatFailure" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                          <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.RTGS_INCOMING_SB_Q">
+                            <propertyName xmi:type="utility:TranslatableString" key="Property.RTGS_INCOMING_SB_Q" bundleName="com/stewardbank/co/zw/rtgsincoming/rtgsIncomingFlow" pluginId="StewardBankRTGSIncomingApp"/>
+                          </propertyDescriptor>
+                        </propertyDescriptor>
+                      </propertyDescriptor>
+                    </propertyDescriptor>
+                  </propertyDescriptor>
+                </propertyDescriptor>
+              </propertyDescriptor>
+            </propertyDescriptor>
+          </propertyDescriptor>
+        </propertyDescriptor>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

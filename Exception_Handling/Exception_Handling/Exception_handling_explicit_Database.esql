@@ -1,0 +1,10 @@
+BROKER SCHEMA Exception_Handling
+
+
+CREATE DATABASE MODULE Exception_handling_explicit_Database
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		RETURN TRUE;
+	END;
+
+END MODULE;

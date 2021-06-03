@@ -1,0 +1,9 @@
+
+
+CREATE COMPUTE MODULE ScatterFlow_Override
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputLocalEnvironment.WrittenDestination.GroupScatter.Timeout = 1.0;
+		RETURN TRUE;
+	END;
+END MODULE;

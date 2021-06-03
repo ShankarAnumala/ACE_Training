@@ -1,0 +1,60 @@
+DECLARE shareddata SHARED ROW;
+CREATE COMPUTE MODULE getGet_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE POLICYID1 INTEGER InputLocalEnvironment.HTTP.Input.QueryString.policyid;
+        DECLARE j INTEGER;
+	    SET j = CARDINALITY(shareddata.values[]);
+		DECLARE Qry CHARACTER 'SELECT * FROM system.CLAIMS WHERE POLICYID=?';
+		IF j=0 OR shareddata.values.policyid<>POLICYID1 THEN
+			SET shareddata.values[]=PASSTHRU(Qry TO Database.DBDSN2 VALUES (POLICYID1));
+		END IF;
+        --SET SQLCODE =PASSTHRU(Qry TO Database.DBDSN2 VALUES (POLICYID1));
+       DECLARE DATA ROW;
+        SET DATA.values[]=PASSTHRU(Qry TO Database.DBDSN2 VALUES (POLICYID1));
+		IF SQLCODE = 0 THEN
+		SET OutputRoot.JSON.Data.CLAIMS.REFID = DATA.values.REFID;
+        SET OutputRoot.JSON.Data.CLAIMS.POLICYID = DATA.values.POLICYID;
+		SET OutputRoot.JSON.Data.CLAIMS.POLICYTYPE = DATA.values.POLICYTYPE;
+		SET OutputRoot.JSON.Data.CLAIMS.CUSTOMERFIRSTNAME = DATA.values.CUSTOMERFIRSTNAME;
+		SET OutputRoot.JSON.Data.CLAIMS.CUSTOMERLASTNAME = DATA.values.CUSTOMERLASTNAME;
+		SET OutputRoot.JSON.Data.CLAIMS.CMOBILE = DATA.values.CMOBILE;
+		SET OutputRoot.JSON.Data.CLAIMS.CAADHAR = DATA.values.CAADHAR;
+		SET OutputRoot.JSON.Data.CLAIMS.CGENDER = DATA.values.CGENDER;
+		SET OutputRoot.JSON.Data.CLAIMS.CADDRESS = DATA.values.CADDRESS;
+		SET OutputRoot.JSON.Data.CLAIMS.CSTATE = DATA.values.CSTATE;
+		SET OutputRoot.JSON.Data.CLAIMS.CDISTRICT = DATA.values.CDISTRICT; 
+			
+		ELSE
+        SET OutputRoot.JSON.Data.CLAIMS.REFID = shareddata.values.REFID;
+        SET OutputRoot.JSON.Data.CLAIMS.POLICYID = shareddata.values.POLICYID;
+		SET OutputRoot.JSON.Data.CLAIMS.POLICYTYPE = shareddata.values.POLICYTYPE;
+		SET OutputRoot.JSON.Data.CLAIMS.CUSTOMERFIRSTNAME = shareddata.values.CUSTOMERFIRSTNAME;
+		SET OutputRoot.JSON.Data.CLAIMS.CUSTOMERLASTNAME = shareddata.values.CUSTOMERLASTNAME;
+		SET OutputRoot.JSON.Data.CLAIMS.CMOBILE = shareddata.values.CMOBILE;
+		SET OutputRoot.JSON.Data.CLAIMS.CAADHAR = shareddata.values.CAADHAR;
+		SET OutputRoot.JSON.Data.CLAIMS.CGENDER = shareddata.values.CGENDER;
+		SET OutputRoot.JSON.Data.CLAIMS.CADDRESS = shareddata.values.CADDRESS;
+		SET OutputRoot.JSON.Data.CLAIMS.CSTATE = shareddata.values.CSTATE;
+		SET OutputRoot.JSON.Data.CLAIMS.CDISTRICT = shareddata.values.CDISTRICT; 
+			
+		END IF;
+		
+	END;
+END MODULE;

@@ -1,0 +1,10 @@
+
+
+CREATE COMPUTE MODULE MainFlow_Copy_HTTP_destination_to_user_context
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot = InputRoot;
+		SET Environment.Destination.GroupScatter.Context = InputLocalEnvironment.Destination;
+		RETURN TRUE;
+	END;
+END MODULE;

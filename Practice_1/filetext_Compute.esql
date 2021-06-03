@@ -1,0 +1,48 @@
+
+
+CREATE COMPUTE MODULE filetext_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE datachar CHARACTER;
+		
+		SET datachar = CAST(InputRoot.BLOB.BLOB AS CHARACTER CCSID InputRoot.Properties.CodedCharSetId ENCODING InputRoot.Properties.Encoding);
+		DECLARE position1 INTEGER POSITION('<' IN datachar); 
+		DECLARE char1 CHARACTER SUBSTRING(datachar FROM position1);
+		DECLARE blob1 BLOB CAST(char1 AS BLOB CCSID InputRoot.Properties.CodedCharSetId ENCODING InputRoot.Properties.Encoding);
+		SET Environment.blobdata = blob1;
+		CREATE LASTCHILD OF Environment.xmldata DOMAIN('XMLNSC') PARSE(Environment.blobdata,InputProperties.Encoding,InputProperties.CodedCharSetId);
+        
+	--	SET OutputRoot.XMLNSC.req.id = InputRoot;
+		SET OutputRoot.XMLNSC.req.id = Environment.xmldata.XMLNSC.*:Envelope.*:Body.*:REVERSEPCCONTRACT_IOPK_REQ.*:FCUBS_HEADER.*:MSGID;
+	END;
+END MODULE;
+
+
+--DECLARE inRef REFERENCE TO InputRoot.JSON.Data;
+---- DECLARE id INTEGER inRef.id;
+--DECLARE name CHARACTER inRef.name;
+---- DECLARE candidate CHARACTER inRef.candidate;
+--CALL MANAGEMENT_DETAILS1(name,Environment.Data.ResultSet1[]);
+--IF CARDINALITY(Environment.Data.ResultSet1[])>0 THEN
+--SET OutputRoot.XMLNSC.Data = Environment.Data1[];
+--ELSE
+--DECLARE qry CHARACTER 'select * from employer where name=?';
+--SET Environment.Data1[] = PASSTHRU(qry TO Database.DBDSN VALUES(name));
+--SET OutputRoot.XMLNSC.Data = Environment.Data1[];
+--END IF;

@@ -1,0 +1,12 @@
+
+
+CREATE COMPUTE MODULE ScatterFlow_GroupGather___ReplyID_override
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- SET OutputLocalEnvironment.Destination.GroupGather.CompleteEarly.GroupId = InputLocalEnvironment.WrittenDestination.GroupScatter.GroupId;
+		-- SET OutputLocalEnvironment.Destination.GroupGather.CompleteEarly.ProcessRequest = TRUE;
+		SET OutputLocalEnvironment.Destination.GroupGather.ReplyId = X'1234';
+		SET OutputLocalEnvironment.Destination.GroupGather.UnknownTimeout = 1;
+		RETURN TRUE;
+	END;
+END MODULE;

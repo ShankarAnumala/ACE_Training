@@ -1,0 +1,30 @@
+
+
+CREATE COMPUTE MODULE msg__1_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		  CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot.MQMD.CorrelId = InputRoot.MQMD.MsgId;
+		SET OutputRoot.JSON.Data.root.NodeName = BrokerName;
+		SET OutputRoot.JSON.Data.root.ExecutionName = ExecutionGroupLabel;
+		SET OutputRoot.JSON.Data.food.name = InputRoot.XMLNSC.food.name;
+		SET OutputRoot.JSON.Data.food.price = InputRoot.XMLNSC.food.price;
+		SET OutputRoot.JSON.Data.food.description = InputRoot.XMLNSC.food.description;
+		SET OutputRoot.JSON.Data.food.calories = InputRoot.XMLNSC.food.calories;
+	END;
+END MODULE;

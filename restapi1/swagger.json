@@ -1,0 +1,46 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "restapi1",
+    "version" : "1.0.0",
+    "description" : "restapi1"
+  },
+  "paths" : {
+    "/post" : {
+      "post" : {
+        "operationId" : "postPost",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a post",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/restapi1/v1",
+  "definitions" : {
+    "Emp" : {
+      "type" : "object",
+      "properties" : {
+        "EmpId" : {
+          "type" : "integer"
+        },
+        "EmpName" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

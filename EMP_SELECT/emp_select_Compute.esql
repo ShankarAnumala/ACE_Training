@@ -1,0 +1,21 @@
+
+
+CREATE COMPUTE MODULE emp_select_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		  CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE EMPNO INTEGER InputLocalEnvironment.HTTP.Input.QueryString.EMP_NO;
+		DECLARE EMPLOYEE ROW;
+        CALL GETPROCSELECT1(EMPNO,Environment.variables.ResultSet1[]);
+		 SET OutputRoot.JSON.Data.EMPLOYEE[] = Environment.variables.ResultSet1[];
+	END;
+	CREATE PROCEDURE GETPROCSELECT1(IN P_EMPNO INTEGER)
+	LANGUAGE DATABASE
+	DYNAMIC RESULT SETS 1
+	EXTERNAL NAME "EMP_SELECT";
+END MODULE;

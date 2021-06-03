@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<policies>
+  <policy policyType="JDBCProviders" policyName="databaseroute" policyTemplate="Oracle">
+    <databaseName>shankardb</databaseName>
+    <databaseType>Oracle</databaseType>
+    <databaseVersion></databaseVersion>
+    <type4DriverClassName>oracle.jdbc.OracleDriver</type4DriverClassName>
+    <type4DatasourceClassName>oracle.jdbc.xa.client.OracleXADataSource</type4DatasourceClassName>
+    <connectionUrlFormat>jdbc:oracle:thin:[shankardb]/[shankar]@[localhost]:[1521]:[connectionUrlFormatAttr1]</connectionUrlFormat>
+    <connectionUrlFormatAttr1>XE</connectionUrlFormatAttr1>
+    <connectionUrlFormatAttr2></connectionUrlFormatAttr2>
+    <connectionUrlFormatAttr3></connectionUrlFormatAttr3>
+    <connectionUrlFormatAttr4></connectionUrlFormatAttr4>
+    <connectionUrlFormatAttr5></connectionUrlFormatAttr5>
+    <serverName>localhost</serverName>
+    <portNumber>1521</portNumber>
+    <jarsURL>&lt;ORACLE HOME&gt;/jdbc/lib</jarsURL>
+    <databaseSchemaNames></databaseSchemaNames>
+    <description></description>
+    <maxConnectionPoolSize>0</maxConnectionPoolSize>
+    <securityIdentity>ORADSN</securityIdentity>
+    <environmentParms></environmentParms>
+    <jdbcProviderXASupport>true</jdbcProviderXASupport>
+    <useDeployedJars>false</useDeployedJars>
+  </policy>
+</policies>

@@ -1,0 +1,63 @@
+
+
+CREATE COMPUTE MODULE simpleConv_Database
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+
+--        DECLARE Ref1 REFERENCE TO InputRoot.XMLNSC.*:event.*:eventPointData.*:eventData;
+--        DECLARE Ref2 REFERENCE TO InputRoot.XMLNSC.*:event.*:eventPointData.*:messageFlowData;
+--        DECLARE Ref3 REFERENCE TO InputRoot.XMLNSC.*:event.*:applicationData.*:complexContent;
+--		DECLARE Monitoring CHAR InputRoot.XMLNSC.*:event.*:mon;
+--		DECLARE EventSource CHAR Ref1.*:eventSourceAddress;
+--		DECLARE TimeCreated CHAR Ref1.*:eventSequence.*:creationTime;
+--		DECLARE TransactionId CHAR Ref1.*:eventCorrelation.*:localTransactionId;
+--		DECLARE NodeName CHAR Ref2.*:integrationNode.*:name;
+--		DECLARE HostName CHAR Ref2.*:integrationNode.*:hostName;
+--		DECLARE ServerName CHAR Ref2.*:integrationServer.*:name;
+--		DECLARE AppName CHAR Ref2.*:application.*:name;
+--		DECLARE MessageFlowName CHAR Ref2.*:messageFlow.*:name;
+--		DECLARE IBMNode CHAR Ref2.*:node.*:nodeLabel;
+--		DECLARE InputMessage CHAR Ref3.XMLNSC.root.message.EmpName;
+--		
+--		CALL EVENTINS(Monitoring,EventSource,TimeCreated,TransactionId,NodeName,HostName,ServerName,AppName,MessageFlowName,IBMNode,InputMessage);
+	END;
+END MODULE;
+--
+--CREATE PROCEDURE EVENTINS(IN Monitoring CHAR, IN EventSource CHAR, IN TimeCreated CHAR, IN TransactionId CHAR, IN NodeName CHAR, IN HostName CHAR, IN ServerName CHAR, IN AppName CHAR, IN MessageFlowName CHAR, IN IBMNode CHAR, IN InputMessage CHAR)
+--LANGUAGE DATABASE
+--EXTERNAL NAME "EVENTINSERT";
+
+--CREATE PROCEDURE EVNT_MON(IN NS CHARACTER,IN Address CHARACTER,IN CId CHARACTER,IN Node CHARACTER,IN Application CHARACTER,IN Flow CHARACTER, IN Encodingg CHARACTER,IN ccid CHARACTER)
+--  LANGUAGE DATABASE
+--  EXTERNAL NAME "EVNT_MONITORING";
+--  create or replace PROCEDURE EVNT_MONITORING 
+--(
+--  NAMESPACE1 IN VARCHAR2 
+--, EVENTSOURCEADDRESS IN VARCHAR2 
+--, LOCALTRANSACTIONID IN VARCHAR2 
+--, INTEGRATIONNODE IN VARCHAR2 
+--, APPLICATIONNAME IN VARCHAR2 
+--, UNIQUEFLOWNAME IN VARCHAR2 
+--, ENCODING1 IN VARCHAR2 
+--, CCSID IN VARCHAR2 
+--) AS 
+--BEGIN
+--    INSERT INTO EVNT_MONITOR VALUES (NAMESPACE1,EVENTSOURCEADDRESS,LOCALTRANSACTIONID,INTEGRATIONNODE,APPLICATIONNAME,UNIQUEFLOWNAME,ENCODING1,CCSID);
+--END EVNT_MONITORING;

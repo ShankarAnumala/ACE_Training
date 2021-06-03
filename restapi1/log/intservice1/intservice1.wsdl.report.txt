@@ -1,0 +1,22 @@
+
+
+Importing file: C:\Users\Anumala Shankar\IBM\ACET11\workspace\intservice1\intservice1.wsdl
+
+The WSDL import will proceed with bindings intservice1HttpBinding.
+Creating wsdl schema document for file:///C:/Users/Anumala Shankar/IBM/ACET11/workspace/intservice1/intservice1.wsdl.
+Parsing wsdl binding {http://intservice1}intservice1HttpBinding.
+Parsing wsdl binding input Emp.
+Parsing wsdl binding output Emp.
+Processing doc style for operation Emp.
+Populating WSDL schema intservice1.xsd.
+Creating file intservice1.xsd in the workspace.
+Creating file /restapi1/intservice1_InlineSchema1.xsd in the workspace.
+Copying source WSDL intservice1.wsdl to intservice1.wsdl.
+
+Elapsed time processing this message definition file: 0.651 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

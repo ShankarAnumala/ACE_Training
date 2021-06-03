@@ -1,0 +1,229 @@
+BROKER SCHEMA com.stewardbank.co.zw.rtgsincoming
+PATH com.stewardbank.co.zw.common.esql;
+
+CREATE COMPUTE MODULE rtgsIncomingZssFlow_GeneratingReqToZss
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		 CALL GeneratingZssReq();
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE GeneratingZssReq()
+	 BEGIN
+		DECLARE rc BOOLEAN ;
+		DECLARE trnTime TIMESTAMP CURRENT_GMTTIMESTAMP;
+		DECLARE Field12,Field13,Field7,chrField4 CHARACTER;   
+		DECLARE Field4 DECIMAL ;
+		SET Field12 = CAST(trnTime AS CHARACTER FORMAT 'HHmmss');
+		SET Field13 = CAST(trnTime AS CHARACTER FORMAT 'MMdd');
+		SET Field7 = CAST(trnTime AS CHARACTER FORMAT 'MMddHHmmss');
+		SET Environment.Variables = InputRoot.MQRFH2 ;
+		DECLARE CRLF CHARACTER CAST(X'0D0A' AS CHARACTER CCSID 1208);
+		DECLARE envRef REFERENCE TO Environment.Variables;
+		DECLARE reqMsg CHARACTER ;
+		DECLARE isoDataTime TIMESTAMP CURRENT_TIMESTAMP;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE isoField43,isoField43Data,iso127_19Field CHARACTER ;
+		DECLARE inDomainDataRef REFERENCE TO InputRoot.DFDL;
+		SET isoField43 = Environment.Variables.drAcctId||Environment.Variables.ordCustomerName;
+		IF (LENGTH(isoField43) > 41) THEN
+			SET isoField43Data = SUBSTRING(isoField43 FROM 1 FOR 40);
+		END IF;
+		SET iso127_19Field = SUBSTRING(inDomainDataRef.MT103.body.MT52Data.MT52DataField BEFORE CRLF);
+		
+		DECLARE iso127_19FieldLength INTEGER LENGTH(inDomainDataRef.MT103.body.MT52Data.MT52DataField);
+		IF iso127_19FieldLength < 33  THEN
+			WHILE iso127_19FieldLength < 33 DO
+				SET  iso127_19Field = iso127_19Field||' ';
+			SET iso127_19FieldLength =iso127_19FieldLength+1;
+			END WHILE;
+		ELSE
+			SET  iso127_19Field = SUBSTRING(iso127_19Field FROM 1 FOR 31 );
+		END IF;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Framing Zss Request...........') INTO rc;
+		END IF;
+		--mapping mt103 to iso8583
+			SET OutputRoot.Properties.MessageSet = '{ISO8583_Lib}';
+			SET OutputRoot.Properties.MessageType = '{}: ISO8583_1987';
+			CREATE LASTCHILD OF OutputRoot DOMAIN 'DFDL';
+			CREATE LASTCHILD OF OutputRoot.DFDL NAME 'ISO8583_1987';
+			DECLARE outRef REFERENCE TO OutputRoot.DFDL.ISO8583_1987;
+			SET outRef.MTI_Version = 0;
+			SET outRef.MTI_MessageClass = 2;
+			SET outRef.MTI_MessageFunction = 0;
+			SET outRef.MTI_MessageOrigin = 0;
+			SET outRef.ProcessingCode_003 = '212000';
+			-- For ISO Field4 appending '00' for non cent farmat and removing '.' for cent farmat Amounts
+			SET Field4 = CAST(envRef.transactionAmount AS DECIMAL);
+			SET Field4 = Field4 * 100 ;
+			SET chrField4 = CAST(Field4 AS CHARACTER);
+			IF CONTAINS(chrField4,'.') THEN
+				SET chrField4 = SUBSTRING(chrField4 BEFORE '.');
+				SET outRef.AmountTransaction_004 = CAST(chrField4 AS DECIMAL);
+			ELSE
+				SET outRef.AmountTransaction_004 = Field4 ;
+			END IF;
+			SET outRef.TransmissionDatetime_007 = Field7;
+			SET outRef.SystemsTraceAuditNumber_011 = '397520';
+			SET outRef.TimeLocalTransaction_012 = Field12 ;
+			SET outRef.DateLocalTransaction_013 = Field13;
+			SET outRef.DateSettlement_015 = SUBSTRING(inDomainDataRef.MT103.body.MT32A FROM 3 FOR 4);
+			SET outRef.MerchantType_018 = '6011';
+			SET outRef.PointOfServiceEntryMode_022 = '001';
+			SET outRef.PointOfServiceConditionCode_025 = '27';
+			SET outRef.PointOfServiceCaptureCode_026 = '12';
+			SET outRef.AmountTransactionFee_028 = 'C00000000';
+			SET outRef.AmountTransactionProcessingFee_030 = 'C00000000';
+			SET outRef.AcquiringInstitutionIdentificationCode_032 = '502195';
+			SET outRef.ForwardingInstitutionIdentificationCode_033 = '502195';
+			SET outRef.RetrievalReferenceNumber_037 = CAST(SUBSTRING(inDomainDataRef.MT103.body.MT20 FROM 1 FOR 12) AS CHARACTER);
+			SET outRef.CardAcceptorTerminalIdentification_041 = 'ISAVE263';
+			SET outRef.CardAcceptorIdentificationCode_042 = '26377-SBZWISAVE'; 
+			SET outRef.CardAcceptorNameLocation_043 = isoField43Data ;
+			--SET outRef.CurrencyCodeTransaction_049 = SUBSTRING(SUBSTRING(inDomainDataRef.MT103.body.MT33B  BEFORE ',') FROM 1 FOR 3);
+			SET outRef.CurrencyCodeTransaction_049 = '932';
+			--SET outRef.ReservedNational_059 = Environment.Variables.Nation ;
+			SET outRef.ReceivingInstitutionIdentificationCode_100 = '502195';
+			--SET outRef.AccountIdentification1_102 = envRef.drAcctId;
+			SET outRef.AccountIdentification2_103 = envRef.crAcctId;
+			SET outRef.ReservedPrivate_123 = '100450100130021';
+			SET outRef.ReservedPrivate_127 = '000000';
+			SET outRef.SwitchKeyPostilionPrivate_127_2 = CAST(isoDataTime AS CHARACTER);
+			SET outRef.BankDetailsPostilionPrivate_127_19 = iso127_19Field ;
+			SET outRef.ExtendedTransactionTypePostilionPrivate_127_33 = '9040'; 
+			CALL UpdateMsgWithAsciiBitMap(outRef);
+			SET reqMsg = getPayLoad(FIELDNAME(OutputRoot.DFDL),outRef,encodeRef,ccidRef);
+			DECLARE reqMsgJson CHARACTER'';
+			DECLARE jsonRef REFERENCE TO OutputRoot;
+			CREATE LASTCHILD OF OutputRoot AS jsonRef DOMAIN('JSON');
+			CREATE LASTCHILD OF OutputRoot.JSON AS jsonRef NAME ('Data');
+			--CALL JSONLogMessage(logRef,jsonRef);
+			SET jsonRef = outRef;
+			SET reqMsgJson = getPayLoad('JSON',jsonRef,encodeRef,ccidRef);
+			SET OutputRoot.JSON=NULL;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','***************Account Exixts in ZSS **********') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','**************Zss Request Message **********') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',reqMsg) INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','Zss Req in Json:'||reqMsgJson) INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............RTGSIncoming calling ZSS Subflow...........') INTO rc;
+			 --******************Inserting ISAVE table with ZSS Request Message ************
+			 CALL insertIntoSbIsaveTable(envRef.Guid,CAST(inDomainDataRef.MT103.header.Block1.SessionNumber AS CHARACTER),CAST(CURRENT_TIMESTAMP AS CHARACTER),CAST(inDomainDataRef.MT103.header.Block1.SequenceNum AS CHARACTER),reqMsg,'PENDING',envRef.File.Name,envRef.mtReqMsg,envRef.transactionAmount,envRef.drAcctId,envRef.crAcctId,envRef.exeDate,'NA','NA','PENDING','NA',envRef.File.Status,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'RTGSINCOMING ZSS TRANSACTION','NA','PENDING');
+		END;
+		END MODULE;
+CREATE COMPUTE MODULE rtgsIncomingZssFlow_UpdateDatabaseStatus
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL UpdateDatabaseStatus();
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE UpdateDatabaseStatus() BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		DECLARE inDomain REFERENCE TO InputRoot.DFDL.ISO8583_1987;
+		SET OutputRoot.Properties.MessageType = '{}: ISO8583_1987';
+			CREATE LASTCHILD OF OutputRoot DOMAIN 'DFDL';
+			CREATE LASTCHILD OF OutputRoot.DFDL NAME 'ISO8583_1987';
+			DECLARE outRef REFERENCE TO OutputRoot.DFDL.ISO8583_1987;
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE reqMsg CHARACTER;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE Guid CHARACTER Environment.Variables.Guid;
+		SET reqMsg = getPayLoad(FIELDNAME(InputBody),inDomain,encodeRef,ccidRef);
+		DECLARE reqMsgJson CHARACTER'';
+			DECLARE jsonRef REFERENCE TO OutputRoot;
+			CREATE LASTCHILD OF OutputRoot AS jsonRef DOMAIN('JSON');
+			CREATE LASTCHILD OF OutputRoot.JSON AS jsonRef NAME ('Data');
+			--CALL JSONLogMessage(logRef,jsonRef);
+			SET jsonRef = inDomain;
+			SET reqMsgJson = getPayLoad('JSON',jsonRef,encodeRef,ccidRef);
+			SET OutputRoot.JSON=NULL;
+		IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............ZSS Response..........') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',reqMsg) INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','Zss Res in Json:'||reqMsgJson) INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............End of RTGSIncoming  ResToZSS logging...........') INTO rc;
+			END IF;
+		--***************Updating Database with Zss/T24 Status and Response codes***********************
+		IF FIELDNAME(inDomain) IS NOT NULL THEN
+			 CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','***************Updating ZSS Status in Database**********') INTO rc;
+			IF(inDomain.ResponseCode_039 LIKE '00')  THEN
+				CALL UpdateDBStatus(Guid,'SUCCESS',CAST(inDomain.ResponseCode_039 AS CHARACTER),CAST(inDomain.RetrievalReferenceNumber_037 AS CHARACTER),reqMsg,'ZSS');
+				CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............RTGSIncoming ZSS status updated as SUCCESS in Database...........') INTO rc;
+			ELSE
+				CALL UpdateDBStatus(Guid,'FAILURE',CAST(inDomain.ResponseCode_039 AS CHARACTER),CAST(inDomain.RetrievalReferenceNumber_037 AS CHARACTER),reqMsg,'ZSS');
+				CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............RTGSIncoming ZSS status updated as Failure in Database...........') INTO rc;
+				SET OutputLocalEnvironment.Destination.File.Directory = BackendFailure ;
+			 	SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd') ;
+			 	SET OutputRoot.Properties.MessageSet = '{MT103}';
+				SET OutputRoot.Properties.MessageType = '{}:MT103';
+				CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+				parse(Environment.Variables.mtReqMsg ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+				PROPAGATE TO TERMINAL 'out1';
+				SET OutputRoot.DFDL = NULL;
+			END IF;
+		END IF;
+		SET OutputRoot = InputRoot;
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = RTGS_INCOMING_SB_Q;
+	END;
+END MODULE;
+CREATE COMPUTE MODULE rtgsIncomingZssFlow_GenerateExceptionDetails
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		CALL BuildErrorMsg();
+		RETURN FALSE;
+	END;
+	CREATE PROCEDURE BuildErrorMsg() BEGIN
+		DECLARE dbLoggingDate TIMESTAMP CURRENT_DATE;
+		DECLARE dbLoggingTime TIMESTAMP CURRENT_TIME;
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE domainDataRef REFERENCE TO InputRoot.XMLNSC;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............Start RTGSIncoming Exception logging...........') INTO rc;
+		END IF;
+		DECLARE excpRef REFERENCE TO InputRoot.XMLNSC.ExceptionDetails;
+		DECLARE outRefer REFERENCE TO OutputRoot;
+		DECLARE exe_Desc CHARACTER'';  
+		IF CONTAINS(excpRef.excpText,'Database') OR CONTAINS(excpRef.excpText,'ZssClientOut,connection refused') OR CONTAINS(excpRef.excpText,'SocketException') THEN
+			SET OutputLocalEnvironment.Destination.File.Directory = DBFailure;
+			SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd');
+		ELSE
+			SET OutputLocalEnvironment.Destination.File.Directory = FormatFailure;
+			SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd');
+		END IF;	
+		SET OutputRoot.Properties.MessageSet = '{MT103}';
+			SET OutputRoot.Properties.MessageType = '{}:MT103';
+			CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+			parse(Environment.Variables.mtReqMsg ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+			PROPAGATE TO TERMINAL 'out1';
+			SET OutputRoot.DFDL = NULL;
+		CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC NAME 'RTGSIncoming';
+		DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.*;    
+		CALL BuildExceptionDetails(excpRef,outRef,'RTGSIncoming');
+		SET Environment.userDefineError = OutputRoot.XMLNSC;
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = SB_EXCQ ;
+		PROPAGATE TO TERMINAL 'out';
+				-- DB Logging===================
+		SET exe_Desc = getPayLoad(FIELDNAME(InputBody),domainDataRef,encodeRef,ccidRef);
+		CALL writeToLogFile(MessageFlowLabel,'ErrorLogger','ERROR','Exception Details: '||exe_Desc) INTO rc ;
+		CALL Error_DBLogging(Environment.Variables.Guid,Environment.Variables.mtReqMsg,'Application Error',ApplicationLabel,BrokerName,exe_Desc,CAST(dbLoggingTime AS CHARACTER FORMAT 'HHmmss'),CAST(dbLoggingDate AS CHARACTER FORMAT 'yyyyMMdd'),' ',CAST(excpRef.excpNumber AS CHARACTER),Environment.userDefineError.RTGSIncoming.ErrorCode,outRefer);
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = ERROR_AUDIT_Q;
+		PROPAGATE TO TERMINAL 'out';
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............End RTGSIncoming Exception logging...........') INTO rc;
+	END;
+END MODULE;
+
+	

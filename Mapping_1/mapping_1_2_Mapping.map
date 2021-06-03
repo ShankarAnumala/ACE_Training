@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="/mapxml.xsd"/>
+    <output path="/mapxml.xsd"/>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="mapping_1_2_Mapping">
+        <input path="mb:msg(req,assembly,XMLNSC,Properties)" var="ComIbmMessageAssembly_req"/>
+        <output path="mb:msg(req,assembly,XMLNSC,Properties)" var="ComIbmMessageAssembly_req1"/>
+        <move>
+            <input path="$ComIbmMessageAssembly_req/Properties"/>
+            <output path="$ComIbmMessageAssembly_req1/Properties"/>
+        </move>
+        <move>
+            <input path="$ComIbmMessageAssembly_req/req"/>
+            <output path="$ComIbmMessageAssembly_req1/req"/>
+        </move>
+    </mappingDeclaration>
+</mappingRoot>

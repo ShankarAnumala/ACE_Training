@@ -1,0 +1,39 @@
+
+
+CREATE COMPUTE MODULE inputMSG_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE EID DECIMAL InputLocalEnvironment.Database.Input.Event.Usr.EID;
+		DECLARE filename CHARACTER;
+		DECLARE id CHARACTER CAST(EID as CHARACTER);
+		DECLARE name CHARACTER InputLocalEnvironment.Database.Input.Event.Usr.EVENT_DESC;
+		SET filename = id||'_'||name;
+		SET OutputRoot.XMLNSC.Data.Emp_Event = InputLocalEnvironment.Database.Input.Event.Usr;
+	--	SET OutputRoot.XMLNSC.Data.Employees = InputLocalEnvironment.Database.Input.Event1.Usr;
+		
+--		
+--		SET OutputRoot.XMLNSC.Data.Employees.EID = InputLocalEnvironment.Database.Input.Event1.Usr.EID;
+--		SET OutputRoot.XMLNSC.Data.Employees.ENAME = InputLocalEnvironment.Database.Input.Event1.Usr.ENAME;
+--		SET OutputRoot.XMLNSC.Data.Employees.DESIGNATION = InputLocalEnvironment.Database.Input.Event1.Usr.DESIGNATION;
+--		SET OutputRoot.XMLNSC.Data.Employees.ADDRESS = InputLocalEnvironment.Database.Input.Event1.Usr.ADDRESS;
+		
+		SET OutputLocalEnvironment.Destination.File.Name = filename||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'YYYY_MM_DD_HH_mm')||'.txt';
+	END;
+END MODULE;
+

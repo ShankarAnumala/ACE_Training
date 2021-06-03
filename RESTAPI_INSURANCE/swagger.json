@@ -1,0 +1,131 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "RESTAPI_INSURANCE",
+    "version" : "1.0.0",
+    "description" : "RESTAPI_INSURANCE"
+  },
+  "paths" : {
+    "/getinsurance" : {
+      "get" : {
+        "operationId" : "getGet",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve get"
+      }
+    },
+    "/postinsurance" : {
+      "post" : {
+        "operationId" : "postPost",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a post",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    },
+    "/putinsurance" : {
+      "put" : {
+        "operationId" : "putPut",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Update put",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    },
+    "/deleteinsurance" : {
+      "delete" : {
+        "operationId" : "deleteDelete",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Remove from delete",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/restapi_insurance/v1",
+  "definitions" : {
+    "CLAIMS" : {
+      "type" : "object",
+      "properties" : {
+        "refid" : {
+          "type" : "integer"
+        },
+        "policyid" : {
+          "type" : "number"
+        },
+        "policytype" : {
+          "type" : "string"
+        },
+        "customerfirstname" : {
+          "type" : "string"
+        },
+        "customerlastname" : {
+          "type" : "string"
+        },
+        "cmobile" : {
+          "type" : "integer"
+        },
+        "caadhar" : {
+          "type" : "integer"
+        },
+        "caddress" : {
+          "type" : "string"
+        },
+        "cdistrict" : {
+          "type" : "string"
+        },
+        "cstate" : {
+          "type" : "string"
+        },
+        "cgender" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

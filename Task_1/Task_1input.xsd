@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="POA">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Address"/>
+        <xsd:element ref="Current_Address"/>
+        <xsd:element ref="AADHAR_DETAILS"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Address" type="xsd:string"/>
+  <xsd:element name="AADHAR_DETAILS" type="xsd:string"/>
+  <xsd:element name="Personal_Details">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="First_Name"/>
+        <xsd:element ref="Second_Name"/>
+        <xsd:element ref="Gender"/>
+        <xsd:element ref="Nationality"/>
+        <xsd:element ref="Mobile_Number"/>
+        <xsd:element ref="Date_Of_Birth"/>
+        <xsd:element ref="Occupation"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Account_Opening">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Customer_Details"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Current_Address" type="xsd:string"/>
+  <xsd:element name="Gender" type="xsd:string"/>
+  <xsd:element name="POI">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="PANCARD_DETAILS"/>
+        <xsd:element ref="DRIVING_LICENSE_DETAILS"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Date_Of_Birth" type="xsd:string"/>
+  <xsd:element name="Nationality" type="xsd:string"/>
+  <xsd:element name="First_Name" type="xsd:string"/>
+  <xsd:element name="Customer_Details">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Personal_Details"/>
+        <xsd:element ref="POA"/>
+        <xsd:element ref="POI"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Occupation" type="xsd:string"/>
+  <xsd:element name="PANCARD_DETAILS" type="xsd:string"/>
+  <xsd:element name="Mobile_Number" type="xsd:string"/>
+  <xsd:element name="DRIVING_LICENSE_DETAILS" type="xsd:string"/>
+  <xsd:element name="Second_Name" type="xsd:string"/>
+</xsd:schema>

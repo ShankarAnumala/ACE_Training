@@ -1,0 +1,36 @@
+
+
+CREATE COMPUTE MODULE json_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+--		SET OutputRoot.JSON.Data.CLAIMS.refid = InputRoot.XMLNSC.CLAIMS.refid;
+--		SET OutputRoot.JSON.Data.CLAIMS.policytype = InputRoot.XMLNSC.CLAIMS.policytype;
+--		SET OutputRoot.JSON.Data.CLAIMS.customerfirstname = InputRoot.XMLNSC.CLAIMS.customerfirstname;
+--		SET OutputRoot.JSON.Data.CLAIMS.customerlastname = InputRoot.XMLNSC.CLAIMS.customerlastname;
+--		SET OutputRoot.JSON.Data.CLAIMS.cgender = InputRoot.XMLNSC.CLAIMS.cgender;
+--		SET OutputRoot.JSON.Data.CLAIMS.cmobile = InputRoot.XMLNSC.CLAIMS.cmobile;
+--		SET OutputRoot.JSON.Data.CLAIMS.caadhar = InputRoot.XMLNSC.CLAIMS.caadhar;
+--		SET OutputRoot.JSON.Data.CLAIMS.caddress = InputRoot.XMLNSC.CLAIMS.caddress;
+--		SET OutputRoot.JSON.Data.CLAIMS.cdistrict = InputRoot.XMLNSC.CLAIMS.cdistrict;
+--		SET OutputRoot.JSON.Data.CLAIMS.cstate = InputRoot.XMLNSC.CLAIMS.cstate;
+  SET OutputRoot.JSON.Data = InputRoot.XMLNSC;
+	END;
+END MODULE;
+
+	

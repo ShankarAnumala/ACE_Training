@@ -1,0 +1,22 @@
+
+
+Importing file: C:\Users\Anumala Shankar\IBM\ACET11\workspace\SOAP2\SOAP2.wsdl
+
+The WSDL import will proceed with bindings SOAP2SOAP.
+Creating wsdl schema document for file:///C:/Users/Anumala Shankar/IBM/ACET11/workspace/SOAP2/SOAP2.wsdl.
+Parsing wsdl binding {http://www.example.org/SOAP2/}SOAP2SOAP.
+Parsing wsdl binding input NewOperation.
+Parsing wsdl binding output NewOperation.
+Processing doc style for operation NewOperation.
+Populating WSDL schema SOAP2.xsd.
+Creating file SOAP2.xsd in the workspace.
+Creating file SOAP2_InlineSchema1.xsd in the workspace.
+Copying source WSDL SOAP2.wsdl to SOAP2.wsdl.
+
+Elapsed time processing this message definition file: 1.507 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

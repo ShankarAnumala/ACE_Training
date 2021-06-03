@@ -1,0 +1,112 @@
+
+CREATE COMPUTE MODULE excp1_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+
+DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'S22003', SQLSTATE LIKE 'S22007', SQLSTATE LIKE 'S22008', SQLSTATE LIKE 'S22012', SQLSTATE LIKE 'S22015', SQLSTATE LIKE 'S22018', SQLSTATE LIKE 'SFN001', SQLSTATE LIKE 'SPS001', SQLSTATE LIKE 'SPS002', SQLSTATE LIKE 'SPS003', SqlState LIKE 'MQW001',
+SqlState LIKE 'MQW002',SqlState LIKE 'MQW003',SqlState LIKE 'MQW004',SqlState LIKE 'MQW005',SqlState LIKE 'MQW101', SqlState LIKE 'MQW102',SqlState LIKE 'MQW201'
+BEGIN
+IF SQLSTATE LIKE 'S22007' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Arithmetic overflow';
+ELSEIF SQLSTATE LIKE 'S22008' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Date time field overflow';
+ELSEIF SQLSTATE LIKE 'S22012' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Divide by zero';
+ELSEIF SQLSTATE LIKE 'S22003' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Arithmetic overflow';
+ELSEIF SQLSTATE LIKE 'S22015' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Interval field overflow';
+ELSEIF SQLSTATE LIKE 'S22018' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Character value for cast not valid';
+ELSEIF SQLSTATE LIKE 'SFN001' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'A SELECT function used in an IN predicate returned more than one column';
+ELSEIF SQLSTATE LIKE 'SPS001' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Target terminal not valid';
+ELSEIF SQLSTATE LIKE 'SPS002' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Target label not valid';
+ELSEIF SQLSTATE LIKE 'SPS003' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'PROPAGATE statement not valid in this context';
+ELSEIF SQLSTATE LIKE 'MQW001' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'The bit stream does not meet the requirements';
+ELSEIF SQLSTATE LIKE 'MQW002' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'The target queue or queue manager names were not valid';
+ELSEIF SQLSTATE LIKE 'MQW003' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Reply to queue or queue manager names were not valid';
+ELSEIF SQLSTATE LIKE 'MQW004' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'Destination list supplied does not meet the basic requirements';
+ELSEIF SQLSTATE LIKE 'MQW101' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'The target queue manager or queue could not be opened';
+ELSEIF SQLSTATE LIKE 'MQW102' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'The target queue manager or queue could not be written to';
+ELSEIF SQLSTATE LIKE 'MQW201' THEN
+SET OutputRoot.XMLNSC.root.Handler = 'More than one error occurred while processing a destination list';
+
+END IF;
+END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'S22007'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Date time format not valid';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'S22008'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Date time field overflow';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'S22012'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Divide by zero';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'S22015'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Interval field overflow';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'S22018'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Character value for cast not valid.';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'SFN001'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'A SELECT function used in an IN predicate returned more than one column ';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'SPS001'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Target terminal not valid';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'SPS002'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'Target label not valid';
+-- END;
+-- DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE 'SPS003' , SqlState LIKE 'MQW001'
+-- BEGIN
+-- SET OutputRoot.XMLNSC.root.Handler = 'PROPAGATE statement not valid in this context';
+-- END;
+--
+--
+
+
+DECLARE C INTEGER;
+SET C = 4/0;
+SET OutputRoot.XMLNSC.root.C = C;
+SET OutputRoot.XMLNSC.root.response = 'Flow is continuing';
+--
+-- THROW USER EXCEPTION VALUES(1, 'BIPmsgs', 42, 'error text');
+--
+-- SET OutputRoot.XMLNSC.root.afterThrow = '';
+
+	END;
+END MODULE;

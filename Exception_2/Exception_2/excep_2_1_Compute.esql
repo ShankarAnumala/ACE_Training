@@ -1,0 +1,49 @@
+BROKER SCHEMA Exception_2
+
+
+CREATE COMPUTE MODULE excep_2_1_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		  CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE NodeName,MsgFlowName,Ex_Name,Ex_Code,Ex_Desc,RefId CHARACTER;
+		DECLARE FieldInt INTEGER;
+		DECLARE E_Date TIMESTAMP CURRENT_TIMESTAMP;
+		SET FieldInt = POSITION('.' IN InputExceptionList.RecoverableException.Label REPEAT -1);
+		SET NodeName = SUBSTRING(InputExceptionList.RecoverableException.Label FROM (FieldInt+1));
+		SET MsgFlowName = MessageFlowLabel;				
+
+
+		DECLARE inRef REFERENCE TO InputExceptionList;
+		DECLARE ExRef CHARACTER InputExceptionList.RecoverableException.Text;
+		MOVE inRef LASTCHILD;
+		IF ExRef IS NOT NULL THEN
+			X:WHILE LASTMOVE(inRef) DO
+			IF FIELDNAME(inRef) <> 'ParserException' THEN
+				MOVE inRef LASTCHILD;
+
+			ELSEIF FIELDNAME(inRef) = 'ParserException' THEN
+				SET Ex_Desc = inRef.Text;
+				MOVE inRef PREVIOUSSIBLING;
+				SET Ex_Desc = Ex_Desc || COALESCE(inRef.Text,'.');
+
+				MOVE inRef PARENT;
+				SET Ex_Name = FIELDNAME(inRef);
+				SET Ex_Code = SUBSTRING(inRef.Catalog FROM 1 FOR 3) || CAST(inRef.Number AS CHARACTER);
+				SET Ex_Desc = inRef.Text || Ex_Desc;
+
+				LEAVE X;
+			END IF;
+			
+			--MOVE inRef NEXTSIBLING;
+		END WHILE;
+	END IF;
+	SET OutputRoot.XMLNSC.Exception.Name = Ex_Name;
+   	SET OutputRoot.XMLNSC.Exception.Code = Ex_Code;
+   	SET OutputRoot.XMLNSC.Exception.Desc = Ex_Desc;
+	END;
+END MODULE;

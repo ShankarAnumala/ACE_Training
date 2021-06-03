@@ -1,0 +1,22 @@
+
+
+Importing file: C:\Users\SRIKANTH\IBM\ACET11\workspace\WSDL_TASK\HTTP_SOAP.wsdl
+
+The WSDL import will proceed with bindings HTTP_SOAPSOAP.
+Creating wsdl schema document for file:///C:/Users/SRIKANTH/IBM/ACET11/workspace/WSDL_TASK/HTTP_SOAP.wsdl.
+Parsing wsdl binding {http://www.example.org/HTTP_SOAP/}HTTP_SOAPSOAP.
+Parsing wsdl binding input NewOperation.
+Parsing wsdl binding output NewOperation.
+Processing doc style for operation NewOperation.
+Populating WSDL schema HTTP_SOAP.xsd.
+Creating file HTTP_SOAP.xsd in the workspace.
+Creating file HTTP_SOAP_InlineSchema1.xsd in the workspace.
+Copying source WSDL HTTP_SOAP.wsdl to HTTP_SOAP.wsdl.
+
+Elapsed time processing this message definition file: 0.459 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

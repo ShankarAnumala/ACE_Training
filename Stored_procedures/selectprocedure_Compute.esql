@@ -1,0 +1,20 @@
+
+
+CREATE COMPUTE MODULE selectprocedure_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE ID INTEGER InputRoot.XMLNSC.id;
+		DECLARE data ROW;
+        CALL GETPROCSELECT1(ID,Environment.variables.ResultSet1[]);
+		 SET OutputRoot.XMLNSC.data[] = Environment.variables.ResultSet1[];
+	END;
+	CREATE PROCEDURE GETPROCSELECT1(IN ID INTEGER)
+	LANGUAGE DATABASE
+	DYNAMIC RESULT SETS 1
+	EXTERNAL NAME "system.SELECT1";
+END MODULE;

@@ -1,0 +1,32 @@
+
+
+CREATE COMPUTE MODULE retreiveDepartment_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+	
+	  CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+--		DECLARE r1 ROW;
+--		--DECLARE ref REFERENCE TO InputLocalEnvironment.HTTP.Input.QueryString;
+--		--DECLARE p1 CHARACTER SUBSTRING(InputRoot.HTTPInputHeader."X-Query-String" AFTER '=');
+--		DECLARE p1 CHARACTER;
+--		SET p1 = InputRoot.JSON.Data.QueryString.DEPTNO;  
+--			SET r1.values[] = SELECT * FROM Database.DEPARTMENT2  AS  A WHERE A.DEPTNO = p1 ;  
+--			SET OutputRoot.JSON.Data.DBResp.Department = r1;
+
+
+         DECLARE r1 ROW;
+		--DECLARE ref REFERENCE TO InputLocalEnvironment.HTTP.Input.QueryString;
+		--DECLARE p1 CHARACTER SUBSTRING(InputRoot.HTTPInputHeader."X-Query-String" AFTER '=');
+		--DECLARE p1 CHARACTER;
+		--SET p1 = InputRoot.JSON.Data.QueryString.DEPTNO; 
+--		SET OutputRoot= InputRoot; 
+--		DECLARE REFER REFERENCE TO InputRoot.JSON.Data.Response.values;
+DECLARE deptno CHARACTER InputLocalEnvironment.REST.Input.Parameters.deptno;
+			SET r1.values[] = SELECT * FROM Database.DEPARTMENT  AS  A WHERE A.DEPTNO =deptno;  
+			SET OutputRoot.JSON.Data = r1;
+	END;
+END MODULE;

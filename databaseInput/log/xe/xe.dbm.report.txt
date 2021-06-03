@@ -1,0 +1,25 @@
+
+
+Importing file: C:\Users\Administrator\IBM\ACET11\workspace\DB\xe.dbm
+
+
+Processing schema EIDIKO.
+Creating complex type for table DEPARTMENT.
+Creating global element for table DEPARTMENT.
+Creating complex type for table EMP.
+Creating global element for table EMP.
+Creating complex type for table EMPLOYEE.
+Creating global element for table EMPLOYEE.
+Creating complex type for table EMPLOYEES.
+Creating global element for table EMPLOYEES.
+Creating complex type for table EMP_EVENT.
+Creating global element for table EMP_EVENT.
+Creating file \databaseInput\xe\eidiko\xe.xsd in the workspace.
+
+Elapsed time processing this message definition file: 5.238 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

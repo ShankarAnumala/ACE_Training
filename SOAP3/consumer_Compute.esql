@@ -1,0 +1,28 @@
+DECLARE ns5 NAMESPACE 'http://www.example.org/SOAP2/';
+
+
+CREATE COMPUTE MODULE consumer_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		   CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		
+		SET OutputRoot.SOAP.Body.ns:NewOperation.a = InputRoot.XMLNSC.ns:NewOperation.a;
+		SET OutputRoot.SOAP.Body.ns:NewOperation.b = InputRoot.XMLNSC.ns:NewOperation.b;
+		
+	END;
+END MODULE;

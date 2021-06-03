@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="intservice1" targetNamespace="http://intservice1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://intservice1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <binding hasEncoding="false" imported="true" name="intservice1HttpBinding" originalBindingStyle="document"/>
+        <generatedXSD location="intservice1_InlineSchema1.xsd"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+  
+  
+  <wsdl:types>
+    
+        <xsd:schema targetNamespace="http://intservice1" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+      <xsd:include schemaLocation="intservice1_InlineSchema1.xsd"/>
+    </xsd:schema>
+    </wsdl:types>
+  <wsdl:message name="EmpRequestMsg">
+    <wsdl:part element="tns:Emp" name="EmpParameters"/>
+  </wsdl:message>
+  <wsdl:message name="EmpResponseMsg">
+    <wsdl:part element="tns:EmpResponse" name="EmpResult"/>
+  </wsdl:message>
+  <wsdl:portType name="intservice1">
+    <wsdl:operation name="Emp">
+            <wsdl:input message="tns:EmpRequestMsg" name="EmpRequest"/>
+            <wsdl:output message="tns:EmpResponseMsg" name="EmpResponse"/>
+        </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="intservice1HttpBinding" type="tns:intservice1">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Emp">
+            <soap:operation soapAction="http://intservice1/Emp"/>
+            <wsdl:input name="EmpRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+      <wsdl:output name="EmpResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+    </wsdl:operation>
+    </wsdl:binding>
+  <wsdl:service name="intservice1HttpService">
+    <wsdl:port binding="tns:intservice1HttpBinding" name="intservice1HttpPort">
+      <soap:address location="http://localhost:7800/intservice1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

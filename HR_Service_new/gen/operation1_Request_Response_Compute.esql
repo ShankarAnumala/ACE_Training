@@ -1,0 +1,58 @@
+BROKER SCHEMA gen
+
+
+CREATE COMPUTE MODULE operation1_Request_Response_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		  CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+--		DECLARE v1 ROW;
+--		DECLARE p1 CHARACTER InputRoot.JSON.Data.QueryString;
+--		--DECLARE p2 CHARACTER InputRoot.XMLNSC.Request.EMPNO;
+--	
+--		--IF p1 = p1 THEN
+--			
+--			SET v1.values[] = SELECT * FROM Database.EMPLOYEE AS A WHERE A.EMPNO = p1 ;
+--			--DECLARE ref REFERENCE TO v1.values[1];
+--			SET OutputRoot.XMLNSC.Response = v1;		
+					
+		--ELSEIF p2 = p2 THEN
+			
+			--SET v1.values[] = SELECT * FROM Database.EMPLOYEE AS A WHERE A.EMPNO = p2 ;
+			--DECLARE ref REFERENCE TO v1.values[1];
+		
+			--SET OutputRoot.XMLNSC.Response = v1;
+			
+	--	ELSE
+			
+			--SET OutputRoot.XMLNSC.resp = 'No data found';				
+
+
+	--	END IF;
+	
+	
+	DECLARE Q1 ROW;
+		DECLARE p1 CHARACTER ;
+		--SET p1 = SUBSTRING(InputRoot.HTTPInputHeader."X-Query-String" AFTER '=' FOR 6) ; 
+	        SET p1 = InputLocalEnvironment.REST.Input.Parameters.empno;
+	
+			SET Q1.values[] = SELECT * FROM Database.EMPLOYEE AS A WHERE A.EMPNO = p1 ;
+			
+			
+			SET OutputRoot.JSON.Data = Q1.values;	
+	END;
+END MODULE;

@@ -1,0 +1,175 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "HR_Service_new",
+    "version" : "1.0.0",
+    "description" : "HR_Service_new"
+  },
+  "paths" : {
+    "/{id}" : {
+      "post" : {
+        "operationId" : "postId",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a id",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "id",
+          "in" : "path",
+          "type" : "string"
+        }, {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    },
+    "/Employee/{empno}" : {
+      "get" : {
+        "operationId" : "getEmployee",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve Employee",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "empno",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      },
+      "post" : {
+        "operationId" : "postEmployee",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a Employee",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        }, {
+          "required" : true,
+          "name" : "empno",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      }
+    },
+    "/Employee/{empno}/details" : {
+      "get" : {
+        "operationId" : "getDetails",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve details",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "empno",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      }
+    },
+    "/Department/{deptno}" : {
+      "get" : {
+        "operationId" : "retreiveDepartment",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve Department",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "deptno",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      },
+      "post" : {
+        "operationId" : "insertDepartment",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a Department",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        }, {
+          "required" : true,
+          "name" : "deptno",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      }
+    },
+    "/Employee/{empno}/Employee_CallableFlow" : {
+      "get" : {
+        "operationId" : "getEmployee_CallableFlow",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve Employee_CallableFlow",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "empno",
+          "in" : "path",
+          "type" : "string"
+        } ]
+      }
+    }
+  },
+  "basePath" : "/hr_service_new/v1"
+}

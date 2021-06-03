@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:restapiDescriptor xmlns="http://com.ibm.etools.mft.descriptor.base" xmlns:ns2="http://com.ibm.etools.mft.descriptor.restapi" definitionType="swagger_20" definitionFile="swagger.json" implementation="gen/HR_Service.msgflow" https="false">
+    <references/>
+    <ns2:operations>
+        <ns2:operation name="LoadCache" implementation="LoadCache.subflow"/>
+        <ns2:operation name="insertDepartment" implementation="insertDepartment.subflow"/>
+        <ns2:operation name="retrieveDepartment" implementation="retrieveDepartment.subflow"/>
+    </ns2:operations>
+    <ns2:errorHandlers/>
+</ns2:restapiDescriptor>

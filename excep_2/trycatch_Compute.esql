@@ -1,0 +1,14 @@
+
+CREATE COMPUTE MODULE trycatch_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 
+		  CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+
+       SET OutputRoot.XMLNSC.data = InputRoot.XMLNSC.data;
+	END;
+END MODULE;

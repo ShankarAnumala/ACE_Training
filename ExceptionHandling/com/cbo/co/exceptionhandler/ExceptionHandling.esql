@@ -1,0 +1,388 @@
+BROKER SCHEMA com.cbo.co.exceptionhandler
+PATH com.cbo.co.common.esql;        
+DECLARE LOG_CONFIG_PATH EXTERNAL CHARACTER '';
+DECLARE IS_ERROR_RESPONSE_REQUIRED EXTERNAL CHARACTER '';
+DECLARE LOG4J_INIT_ERROR_MSG EXTERNAL CHARACTER '';  
+DECLARE EXCEPTIONQ EXTERNAL CHARACTER '';
+DECLARE MAX_RETRY_COUNT EXTERNAL INTEGER 0;
+DECLARE HTTP_TIMEOUT_ERROR_MSG EXTERNAL CHARACTER '';
+DECLARE SOAP_TIMEOUT_ERROR_MSG EXTERNAL CHARACTER'';
+DECLARE ERROR_AUDIT_Q EXTERNAL CHARACTER '';
+DECLARE ALL_CBO_TCP_RES EXTERNAL CHARACTER '';
+DECLARE ALL_CBO_HTTP_RES EXTERNAL CHARACTER '';
+DECLARE NETWKCD EXTERNAL CHARACTER '';
+DECLARE FINCD EXTERNAL CHARACTER '';
+DECLARE FINRPTCD EXTERNAL CHARACTER '';
+DECLARE REVCD EXTERNAL CHARACTER '';
+DECLARE REVRPTCD EXTERNAL CHARACTER '';
+DECLARE MSGCLASSREV EXTERNAL CHARACTER '';
+DECLARE MSGFUNADV EXTERNAL CHARACTER '';
+DECLARE rc BOOLEAN FALSE;
+CREATE COMPUTE MODULE ExceptionHandling
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		--CALL CopyMessageHeaders();
+		-- SET OutputRoot.Properties = InputRoot.Properties;
+		-- SET OutputRoot.MQMD = InputRoot.MQMD;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF ( rc = FALSE ) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR_MSG;
+		END IF;
+		DECLARE exceptiondesc,inputChar,logdata CHARACTER '';
+		DECLARE ccsid INTEGER;
+		DECLARE domainDataRef REFERENCE TO InputRoot;
+		DECLARE domainFldName CHARACTER FIELDNAME(InputBody);
+		DECLARE ccidRef INTEGER Environment.Variables.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER Environment.Variables.Properties.Encoding;
+		DECLARE systemsTraceAuditNumber,dateLocalTransaction,retrievalReferenceNumber CHARACTER '';
+		--set input properties in environment
+		SET Environment.Properties = InputRoot.Properties;
+		SET Environment.MQMD = InputRoot.MQMD;
+		/* ============================= THIS IS FOR DBLOGGING ***** I'M CASTING  INPUT.DFDL DATA INTO CHARACTER ========================= */
+		DECLARE tcpipDetails REFERENCE TO InputLocalEnvironment.TCPIP.Input.ConnectionDetails;
+		SET OutputRoot.MQRFH2.tcpId.Id = CAST(tcpipDetails.Id AS CHARACTER);
+		SET OutputRoot.MQRFH2.usr.Id = CAST(tcpipDetails.Id AS CHARACTER);
+		SET Environment.tcpip.Id = CAST(tcpipDetails.Id AS CHARACTER);
+		---------HTTP Router Properties----------
+		IF Environment.Variables.RequestIdentifier = NULL OR Environment.Variables.RequestIdentifier IS NULL THEN
+			SET Environment.Variables.RequestIdentifier = Environment.MQRFH2.RequestIdentifier;
+		END IF;
+		/* ==================================== DB LOGGING PROPERTIES END ===================================== */
+
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............start logging Exception...........') INTO rc;
+		CREATE LASTCHILD Of OutputRoot DOMAIN 'XMLNSC';
+		CREATE LASTCHILD Of OutputRoot.XMLNSC NAME 'ExceptionDetails';
+		DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.ExceptionDetails;
+		DECLARE excpRef REFERENCE TO InputExceptionList.*[1];
+		DECLARE flowName CHARACTER excpRef.Name;
+		DECLARE insertRef REFERENCE TO InputExceptionList.*[1];
+		--get exception in xml format
+		CALL getExceptionDesc(excpRef,insertRef,outRef);
+		--set exception details in environment
+		SET Environment.Variables.ExceptionData = OutputRoot.XMLNSC.ExceptionDetails; --Here changed to get the exact exception information
+		SET Environment.Variables.excpNumber= OutputRoot.XMLNSC.ExceptionDetails.excpNumber;
+		SET Environment.Variables.excpText = OutputRoot.XMLNSC.ExceptionDetails.excpText;
+		SET Environment.Variables.actualExcpText = OutputRoot.XMLNSC.ExceptionDetails.actualExcpText;
+		SET Environment.Variables.excpType = OutputRoot.XMLNSC.ExceptionDetails.excpType;
+		DECLARE exceptionTxt CHARACTER Environment.Variables.ExceptionData.excpText;
+
+		IF CONTAINS(exceptionTxt,'ParserException') THEN
+			SET inputChar = 'unable to parse the data';
+			SET systemsTraceAuditNumber = CAST(CURRENT_TIME AS CHAR FORMAT 'hhmmss');
+			SET dateLocalTransaction = CAST(CURRENT_DATE AS CHAR FORMAT 'MMYY');
+			SET retrievalReferenceNumber = '';
+		--ELSEIF CONTAINS(exceptionTxt,'A connection attempt failed because the connected party did not properly respond after a period of time') THEN
+			
+		ELSE
+			CASE
+
+			WHEN domainFldName='XMLNSC' AND EXISTS(InputRoot.XMLNSC.*[]) THEN
+				SET inputChar=getPayLoad(FIELDNAME(InputBody),domainDataRef.XMLNSC,encodeRef,ccidRef);
+			WHEN domainFldName='SOAP' AND EXISTS(InputRoot.SOAP.*[]) THEN
+				SET inputChar=getPayLoad(FIELDNAME(InputBody),domainDataRef.SOAP,encodeRef,ccidRef);
+			WHEN domainFldName='BLOB' AND EXISTS(InputRoot.BLOB.*[]) THEN
+				SET inputChar=getPayLoad(FIELDNAME(InputBody),domainDataRef.BLOB,encodeRef,ccidRef);
+			WHEN domainFldName='DFDL' AND EXISTS(InputRoot.DFDL.*[]) THEN
+				DECLARE inputRef REFERENCE TO InputRoot.DFDL;
+				SET Environment.Variables.DFDL = inputRef;
+				
+				
+				/*========================== DFDL ======================*/
+--				CASE
+--				WHEN FIELDNAME(inputRef.ISO8583TCPHeader) IS NOT NULL AND EXISTS(InputRoot.DFDL.*[]) THEN
+--					SET inputChar = getPayLoad(FIELDNAME(inputRef.ISO8583TCPHeader),inputRef,encodeRef,ccidRef);
+--					SET Environment.reqMsg = inputChar;
+--				WHEN FIELDNAME(inputRef.ISO8583WithHeader) IS NOT NULL AND EXISTS(InputRoot.DFDL.*[]) THEN
+--					SET systemsTraceAuditNumber = inputRef.ISO8583WithHeader.SystemsTraceAuditNumber_011;
+--					SET dateLocalTransaction = inputRef.ISO8583WithHeader.DateLocalTransaction_013;
+--					SET retrievalReferenceNumber = inputRef.ISO8583WithHeader.RetrievalReferenceNumber_037;
+--					SET inputChar = getPayLoad(FIELDNAME(inputRef.ISO8583WithHeader),inputRef,encodeRef,ccidRef);
+--					SET Environment.reqMsg = inputChar;
+--				ELSE
+--					SET systemsTraceAuditNumber = inputRef.ISO8583_1987.SystemsTraceAuditNumber_011;
+--					SET dateLocalTransaction = inputRef.ISO8583_1987.DateLocalTransaction_013;
+--					SET retrievalReferenceNumber = inputRef.ISO8583_1987.RetrievalReferenceNumber_037;
+--					SET inputChar = getPayLoad(FIELDNAME(InputBody),inputRef,encodeRef,ccidRef);
+--					SET Environment.reqMsg = inputChar;
+--				END CASE;
+			WHEN (domainFldName = 'JSON' AND EXISTS(InputRoot.JSON.*[])) THEN
+				SET inputChar = getPayLoad(FIELDNAME(InputBody),domainDataRef.JSON,encodeRef,ccidRef);
+			END CASE;
+		END IF;
+		--set systemsTraceAuditNumber,dateLocalTransaction,retrievalReferenceNumber to environment
+		SET Environment.Variables.systemsTraceAuditNumber = systemsTraceAuditNumber;
+		SET Environment.Variables.dateLocalTransaction = dateLocalTransaction;
+		SET Environment.Variables.retrievalReferenceNumber = retrievalReferenceNumber;
+		SET Environment.OutgoingRouterErrorCodes.OutGoingRouter.ErrorCode = CAST(Environment.Variables.excpNumber AS CHARACTER);
+
+		IF inputChar IS NOT NULL THEN
+		ELSE
+			SET inputChar = COALESCE(inputChar,'emptydata or unable to parse the data');
+		END IF;
+		DECLARE CR CHARACTER CAST(CAST('X''0A''' AS BLOB) AS CHARACTER CCSID ccidRef);
+		SET logdata = exceptionTxt||CR||'INPUT_ORIGINAL_MESSAGE:START'||CR||inputChar||CR||'INPUT_ORIGINAL_MESSAGE:STOP' ;
+		CALL writeToLogFile(MessageFlowLabel,'ErrorLogger','ERROR',exceptionTxt) into rc;
+		CALL writeToLogFile(MessageFlowLabel,'ErrorLogger','ERROR',logdata) into rc;
+		--start editing(If T24 is down or unavailable send error response to front end in ISO with ResponseCode(06))
+		IF EXISTS(InputExceptionList.*[]) THEN
+			IF (CONTAINS(exceptionTxt,'Connection refused') OR
+				CONTAINS(exceptionTxt,'Connection Dead') OR
+				CONTAINS(exceptionTxt,'your session has been killed') OR
+				CONTAINS(exceptionTxt,'SocketException') OR CONTAINS(exceptionTxt,'Unexpected Network Error')) AND CONTAINS(flowName,'OutgoingRouterFlow')= FALSE THEN
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Connection refused or Connection Dead or your session has been killed or Socket Expection or Unexpected Network Error') INTO rc;
+				--IF Environment.Variables.RequestIdentifier IS NULL OR FIELDVALUE( Environment.Variables.RequestIdentifier) IS NULL THEN
+					--IF Environment.Variables.Counter IS NULL THEN
+						--SET Environment.Variables.Counter = 1;
+					--END IF;
+				--ELSE
+					--IF Environment.Variables.Counter IS NULL THEN
+						--SET Environment.Variables.Counter = 1;
+					--END IF;
+				--END IF;
+
+				--IF Environment.Variables.Counter <= MAX_RETRY_COUNT THEN
+					--SET OutputRoot = NULL;
+					--CALL CopyMessageHeaders();
+					--SET OutputRoot = InputRoot;
+					--SET Environment.Variables.Counter = Environment.Variables.Counter + 1;
+					--CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','connection exception retry count:'||CAST(Environment.Variables.Counter AS CHARACTER)) INTO rc;
+					--RETURN TRUE;
+				--ELSE
+					CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','connection exception retry count reached send response') INTO rc;
+					SET OutputRoot = NULL;
+					CALL CopyMessageHeaders();
+					IF FIELDNAME(Environment.Variables.RequestIdentifier) IS NULL OR FIELDVALUE(Environment.Variables.RequestIdentifier) = '' THEN
+						IF domainFldName='DFDL' AND EXISTS(InputRoot.DFDL.*[]) THEN
+							--CALL revertBackToSystem(ccidRef,encodeRef);
+						END IF;
+					END IF;
+					CALL LogException(encodeRef,ccidRef);
+					CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............end of logging Exception...........') INTO rc;
+					RETURN TRUE;
+				--END IF;
+			ELSEIF (CONTAINS(exceptionTxt,'ParserException') OR
+				CONTAINS(exceptionTxt,'Connection refused') OR
+				CONTAINS(exceptionTxt,'Connection Dead') OR
+				CONTAINS(exceptionTxt,'your session has been killed') OR
+				CONTAINS(exceptionTxt,'Unexpected Network Error')) = FALSE THEN
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Exception Occured') INTO rc;
+				SET OutputRoot = NULL;
+				CALL CopyMessageHeaders();
+				IF domainFldName='DFDL' AND EXISTS(InputRoot.DFDL.*[]) AND CONTAINS(flowName,'OutgoingRouterFlow') = FALSE  AND FIELDVALUE(Environment.Variables.RequestIdentifier) IS NULL THEN
+					--CALL revertBackToSystem(ccidRef,encodeRef);
+				END IF;
+				CALL LogException(encodeRef,ccidRef);
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............end of logging Exception...........') INTO rc;
+				DECLARE dominOutRef REFERENCE TO OutputRoot.XMLNSC;
+				DECLARE domainName CHARACTER FIELDNAME(OutputRoot.XMLNSC);
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Error Details Start::::::'||getPayLoad(domainName,dominOutRef,encodeRef,ccidRef) || ':::::Error Details End') INTO rc;
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............end of logging Exception...........') INTO rc;
+				RETURN TRUE;
+			ELSE
+				/*
+				if parser exception occurs then log it.
+				*/
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Parser Exception') INTO rc;
+				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............end of logging Exception...........') INTO rc;
+				RETURN TRUE;
+			END IF;
+		ELSE
+			--if InputExceptionList is not populated and terminal connected to exception handler library then return true.
+			--it can occur if http node terminal timeout is connected to exception handler library.
+			CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............end of logging Exception...........') INTO rc;
+			RETURN TRUE;
+		END IF;
+	END;
+	/*
+	send exception details to the EXCEPTIONQ after reverting to front end.
+	*/
+	CREATE PROCEDURE LogException(IN encodeRef INTEGER,IN ccidRef INTEGER) BEGIN
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Capturing Connection refused or Connection Dead or your session has been killed or Unexpected Network Error in Exception Q') INTO rc;
+		DECLARE excpRef REFERENCE TO Environment.Variables.ExceptionData;
+		DECLARE exe_Desc CHARACTER;
+		DECLARE outRefer REFERENCE TO OutputRoot;
+		SET OutputRoot.Properties = Environment.Properties;
+		SET OutputRoot.MQRFH2 = Environment.MQRFH2;
+		CREATE LASTCHILD Of OutputRoot DOMAIN 'XMLNSC';
+		CREATE LASTCHILD Of OutputRoot.XMLNSC NAME 'ExceptionDetails';
+		DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.*;
+		CALL BuildExceptionDetails(excpRef,outRef,'ExceptionDetails');
+		SET Environment.Variables.UserDefinedErrorCodes = OutputRoot.XMLNSC;
+		SET OutputRoot.XMLNSC.ExceptionDetails = Environment.Variables.ExceptionData;
+		DECLARE dominOutRef REFERENCE TO OutputRoot.XMLNSC;
+		DECLARE domainName CHARACTER FIELDNAME(OutputRoot.XMLNSC);
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Error Details Start::::::'||getPayLoad(domainName,dominOutRef,encodeRef,ccidRef) || ':::::Error Details End') INTO rc;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+	/*
+	revertBackToSystem procedure requires property,domain,responseQueue in environment
+	*/
+--	CREATE PROCEDURE revertBackToSystem(IN ccidRef INTEGER,IN encodeRef INTEGER)
+--	BEGIN
+--		/* details like tcpip id and systemTraceNumber and dateLocalTransaction and retrievalRefarenceNumber */
+--		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+--		IF ( rc = FALSE ) THEN
+--			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR_MSG;
+--		END IF;
+--		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Revert back to front end') INTO rc;
+--		DECLARE inputRef REFERENCE TO InputRoot.DFDL;
+--		IF NOT EXISTS(InputRoot.DFDL.*[]) THEN
+--			MOVE inputRef TO InputRoot.JSON.Data;
+--		END IF;
+--		DECLARE isoData,mtiRes CHARACTER '';
+--		DECLARE tcpHeader,data BLOB;
+--		CASE
+--		WHEN FIELDNAME(inputRef.ISO8583TCPHeader) IS NOT NULL AND EXISTS(InputRoot.DFDL.*[]) THEN
+--			SET isoData = getPayLoad(FIELDNAME(inputRef.ISO8583TCPHeader),inputRef,encodeRef,ccidRef);
+--			CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Incoming Req Data to revertBackToSystem:'||isoData) INTO rc;
+--			CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','dfdl root is ISO8583TCPHeader') INTO rc;
+--			CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Since no mti to map revert to front end failed') INTO rc;
+--			CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Revert back to front end done') INTO rc;
+--			RETURN;
+--		WHEN FIELDNAME(inputRef.ISO8583WithHeader) IS NOT NULL AND EXISTS(InputRoot.DFDL.*[]) THEN
+--			DECLARE inRef REFERENCE TO InputRoot.DFDL.ISO8583WithHeader;
+--			IF (CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),NETWKCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),REVCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),REVRPTCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),FINCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),FINRPTCD)
+--				OR CONTAINS(CAST(inRef.MTI_MessageClass AS CHARACTER),MSGCLASSREV )
+--				OR CONTAINS(CAST(inRef.MTI_MessageFunction AS CHARACTER),MSGFUNADV ))=FALSE THEN
+--				SET isoData = getPayLoad(FIELDNAME(inRef),inputRef,encodeRef,ccidRef);
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Incoming Req Data to revertBackToSystem:'||isoData) INTO rc;
+--				CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL');
+--				CREATE LASTCHILD OF OutputRoot.DFDL NAME 'ISO8583WithHeader';
+--				DECLARE outRef REFERENCE TO OutputRoot.DFDL.ISO8583WithHeader;
+--				SET outRef.TCPHeaderBitmap[] = inRef.TCPHeaderBitmap[];
+--				DECLARE posRef REFERENCE TO Environment.DFDL.ISO8583_1987;
+--				DECLARE posPcodeRef REFERENCE TO InputRoot.MQRFH2.usr.sbPcode;
+--				CALL FieldToFieldMapping(inRef,outRef,IS_ERROR_RESPONSE_REQUIRED,posPcodeRef,posRef);
+--				DECLARE outDomainDataRef REFERENCE TO OutputRoot.DFDL;
+--				DECLARE isoData CHARACTER getPayLoad(FIELDNAME(OutputRoot.DFDL.ISO8583WithHeader),outDomainDataRef,encodeRef,ccidRef); --ASBITSTREAM(OutputRoot.DFDL ENCODING encodeRef CCSID ccidRef SET '{ISO8583_Lib}' TYPE '{}:ISO8583WithHeader');
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','iso data with header:'||isoData) INTO rc;
+--				SET isoData = SUBSTRING(isoData FROM 1 FOR 2) || SUBSTRING(isoData FROM 7);
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','iso data after removing header:'||isoData) INTO rc;
+--				SET OutputRoot = NULL;
+--				SET OutputRoot.Properties = InputRoot.Properties;
+--				SET OutputRoot.MQRFH2 = Environment.MQRFH2;
+--				SET OutputRoot.Properties.MessageSet = '{ISO8583_Lib}';
+--				SET OutputRoot.Properties.MessageType = '{}:ISO8583_1987';
+--				CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+--				PARSE(CAST(isoData AS BLOB) ENCODING encodeRef CCSID ccidRef SET '{ISO8583_Lib}' TYPE '{}:ISO8583_1987');
+--				CALL MTIResponse(CAST(inRef.MTI_Version AS CHARACTER),CAST(inRef.MTI_MessageClass AS CHARACTER),CAST(inRef.MTI_MessageFunction AS CHARACTER),CAST(inRef.MTI_MessageOrigin AS CHARACTER)) into mtiRes;
+--				SET OutputRoot.DFDL.ISO8583_1987.MTI_Version = SUBSTRING(mtiRes FROM 1 FOR 1);
+--				SET OutputRoot.DFDL.ISO8583_1987.MTI_MessageClass = SUBSTRING(mtiRes FROM 2 FOR 1);
+--				SET OutputRoot.DFDL.ISO8583_1987.MTI_MessageFunction = SUBSTRING(mtiRes FROM 3 FOR 1);
+--				SET OutputRoot.DFDL.ISO8583_1987.MTI_MessageOrigin = SUBSTRING(mtiRes FROM 4 FOR 1);
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Response To Postilion::') INTO rc;
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR',getPayLoad(FIELDNAME(OutputRoot.DFDL),outRef,encodeRef,ccidRef)) INTO rc;
+--			ELSE
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','No Response To Postilion Since MTI may be 0800,0220,0221,0420,0421') INTO rc;
+--				RETURN;
+--			END IF;
+--		ELSE
+--			DECLARE inRef REFERENCE TO InputRoot.DFDL.ISO8583_1987;
+--			IF (CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),NETWKCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),REVCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),REVRPTCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),FINCD)
+----				OR CONTAINS(CAST(inRef.MTI_Version AS CHARACTER)|| CAST(inRef.MTI_MessageClass AS CHARACTER)||CAST(inRef.MTI_MessageFunction AS CHARACTER)||CAST(inRef.MTI_MessageOrigin AS CHARACTER),FINRPTCD)
+--				OR CONTAINS(CAST(inRef.MTI_MessageClass AS CHARACTER),MSGCLASSREV )
+--				OR CONTAINS(CAST(inRef.MTI_MessageFunction AS CHARACTER),MSGFUNADV ))=FALSE THEN
+--				SET isoData = getPayLoad(FIELDNAME(InputBody),inputRef,encodeRef,ccidRef);
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Incoming Req Data to revertBackToSystem:'||isoData) INTO rc;
+--				SET OutputRoot.Properties.MessageType = '{}:ISO8583_1987';
+--				CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL');
+--				CREATE LASTCHILD OF OutputRoot.DFDL NAME 'ISO8583_1987';
+--				DECLARE outRef REFERENCE TO OutputRoot.DFDL.ISO8583_1987;
+--				DECLARE posRef REFERENCE TO Environment.DFDL.ISO8583_1987;
+--				DECLARE posPcodeRef REFERENCE TO InputRoot.MQRFH2.usr.sbPcode;
+--				CALL FieldToFieldMapping(inRef,outRef,IS_ERROR_RESPONSE_REQUIRED,posPcodeRef,posRef);
+--				CALL MTIResponse(CAST(inRef.MTI_Version AS CHARACTER),CAST(inRef.MTI_MessageClass AS CHARACTER),CAST(inRef.MTI_MessageFunction AS CHARACTER),CAST(inRef.MTI_MessageOrigin AS CHARACTER)) into mtiRes;
+--				SET outRef.MTI_Version = SUBSTRING(mtiRes FROM 1 FOR 1);
+--				SET outRef.MTI_MessageClass = SUBSTRING(mtiRes FROM 2 FOR 1);
+--				SET outRef.MTI_MessageFunction = SUBSTRING(mtiRes FROM 3 FOR 1);
+--				SET outRef.MTI_MessageOrigin =SUBSTRING(mtiRes FROM 4 FOR 1);
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Response To Postilion::') INTO rc;
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR',getPayLoad(FIELDNAME(OutputRoot.DFDL),outRef,encodeRef,ccidRef)) INTO rc;
+--			ELSE
+--				CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','No Response To Postilion Since MTI may be 0800,0220,0221,0420,0421') INTO rc;
+--				RETURN;
+--			END IF;
+--		END CASE;
+--		--generate a error response in iso8583 to front end system in case of failure of t24
+--		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = ALL_SB_TCP_RES;
+--		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'INFO','reponse queue:') INTO rc;
+--		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'INFO',ALL_SB_TCP_RES) INTO rc;
+--		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','Revert back to front end done') INTO rc;
+--		PROPAGATE TO TERMINAL 'out1';
+--	END;
+--
+	CREATE PROCEDURE getExceptionDesc(IN excpRef REFERENCE,IN insertRef REFERENCE,INOUT outRef REFERENCE)
+	BEGIN
+		DECLARE messageText,actualExcpText CHARACTER '';
+		DECLARE exceptionName CHARACTER '';
+		DECLARE timoutField REFERENCE TO InputLocalEnvironment;
+		WHILE LASTMOVE(excpRef) DO
+			IF excpRef.Number is not null THEN
+				SET outRef.excpType = FIELDNAME(excpRef);
+				SET exceptionName = FIELDNAME(excpRef);
+				SET outRef.excpNumber = excpRef.Number;
+				SET outRef.excpLable = excpRef.Label;
+				IF stringValidation(excpRef.Text) THEN
+					SET messageText = messageText||','||excpRef.Text;
+				END IF;
+				--- fetch description from Insert[]
+				MOVE insertRef TO excpRef.Insert[>];
+				WHILE LASTMOVE(insertRef) AND FIELDNAME(insertRef) = 'Insert' DO
+					IF NOT LENGTH(insertRef.Text) = 1 AND
+						stringValidation(insertRef.Text)THEN
+						SET messageText = messageText||','||insertRef.Text;
+						SET actualExcpText = insertRef.Text ;
+					END IF;
+					MOVE insertRef NEXTSIBLING;
+				END WHILE;
+				--started editing(removed since we are capturing all insert field data)
+				/*
+				ELSE
+				IF FIELDVALUE(excpRef) <> '' AND LENGTH(FIELDVALUE(excpRef)) > 15 THEN
+				SET outRef.excpText = FIELDVALUE(excpRef);
+				END IF;
+				*/
+				--ended editing(removed since we are capturing all insert field data)
+			END IF;
+			move excpRef lastchild;
+		END WHILE;
+		SET outRef.excpText = exceptionName||''||OVERLAY(messageText PLACING ':' FROM 1 FOR 1);
+		SET outRef.actualExcpText = actualExcpText;
+		IF FIELDNAME(timoutField.HTTP.Input.Timeout) IS NOT NULL THEN
+			
+			SET outRef.excpText = HTTP_TIMEOUT_ERROR_MSG ||CAST(timoutField.HTTP.Input.Timeout.OriginalClientWaitTime AS CHARACTER)||' seconds).';
+			
+		ELSEIF FIELDNAME(timoutField.SOAP.Input.Timeout) IS NOT NULL THEN
+			SET outRef.excpText = SOAP_TIMEOUT_ERROR_MSG ||CAST(timoutField.SOAP.Input.Timeout.OriginalClientWaitTime AS CHARACTER)||' seconds).';
+		END IF;
+	END;
+	CREATE PROCEDURE stringValidation (IN text CHARACTER)
+	RETURNS BOOLEAN
+	BEGIN
+		IF NOT CONTAINS(text, 'Node throwing exception') AND
+			NOT CONTAINS(text, 'Caught exception and rethrowing') AND
+			NOT CONTAINS(text, 'Error detected, rethrowing') AND
+			NOT CONTAINS(text, 'Error occured in procedure') AND
+			NOT LENGTH(text) = 1 THEN
+			RETURN TRUE;
+		ELSE
+			RETURN FALSE;
+		END IF;
+	END;
+END MODULE;

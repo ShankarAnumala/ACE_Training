@@ -1,0 +1,195 @@
+BROKER SCHEMA com.stewardbank.co.zw.rtgsincoming
+PATH com.stewardbank.co.zw.common.esql;
+DECLARE RtgsIncomingT24Url,RTGS_INCOMING_SB_Q,RtgsReturnsT24Url,BackendFailure EXTERNAL CHARACTER '';
+CREATE COMPUTE MODULE rtgsIncomingT24Flow_GeneratingT24Request
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		 CALL GeneratingT24Req();
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE GeneratingT24Req()
+	 BEGIN
+	 	DECLARE rc BOOLEAN ;
+		SET Environment.Variables = InputRoot.MQRFH2 ;
+		 DECLARE envRef REFERENCE TO Environment.Variables;
+		DECLARE reqMsg,RtgsIncomingUrlPathparameters CHARACTER ;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE inDomainDataRef REFERENCE TO InputRoot.DFDL;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Framing T24 Request...........') INTO rc;
+		END IF;
+		 --Framing Rest Request To T24 Url--------
+		 SET OutputRoot.HTTPRequestHeader."Content-Type" =  'application/json';
+		  CREATE LASTCHILD OF OutputRoot DOMAIN('JSON');
+		 DECLARE outRef REFERENCE TO OutputRoot.JSON;
+		 CREATE LASTCHILD OF OutputRoot.JSON AS outRef NAME 'Data';
+		 IF envRef.crAcctId NOT LIKE ' ' AND CONTAINS(envRef.endToEndReference,'RRF') THEN
+		 	SET outRef.debitCurrency = envRef.debitCurrency;
+		  SET outRef.creditAccountId = envRef.crAcctId ;
+		  SET outRef.orderingCustomerName = envRef.ordCustomerName;
+		  SET outRef.paymentCurrency = envRef.debitCurrency;
+		  SET outRef.transactionAmount = envRef.transactionAmount ;
+		  SET outRef.executionDate = envRef.exeDate;
+		  SET outRef.narrative = envRef.narrative;
+		   SET outRef.invoiceReference = envRef.invoiceReference;
+		  SET outRef.endToEndReference = envRef.endToEndReference;
+		  SET reqMsg = getPayLoad(FIELDNAME(OutputRoot.JSON),outRef,encodeRef,ccidRef);
+		  -- Appending path parameters to stiring--
+		  SET RtgsIncomingUrlPathparameters = envRef.debitCurrency||'/'||envRef.crAcctId||'/'||envRef.ordCustomerName||'/'||envRef.debitCurrency||'/'||envRef.transactionAmount||'/'||envRef.exeDate||'/'||envRef.narrative||'/'||envRef.invoiceReference||'/'||envRef.endToEndReference;
+		  SET OutputLocalEnvironment.Destination.HTTP.RequestURL = RtgsIncomingT24Url||RtgsIncomingUrlPathparameters ;
+		   IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............T24 Request Url..........') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',RtgsIncomingT24Url||RtgsIncomingUrlPathparameters) INTO rc;
+		  END IF;	
+		  		 --******************Insertingvalues into ISAVE table with T24 Request Message ************
+		  		  CALL insertIntoSbIsaveTable(envRef.Guid,CAST(inDomainDataRef.MT103.header.Block1.SessionNumber AS CHARACTER),CAST(CURRENT_TIMESTAMP AS CHARACTER),CAST(inDomainDataRef.MT103.header.Block1.SequenceNum AS CHARACTER),'NA','PENDING',envRef.File.Name,envRef.mtReqMsg,envRef.transactionAmount,envRef.drAcctId,envRef.crAcctId,envRef.exeDate,reqMsg,RtgsIncomingT24Url||RtgsIncomingUrlPathparameters,'NA','PENDING',envRef.File.Status,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'RTGSINCOMING T24 Transaction','PENDING','NA');
+		 ELSE
+		  SET outRef.debitAccountId = envRef.drAcctId;
+		  SET outRef.debitCurrency = envRef.debitCurrency;
+		  SET outRef.orderingCustomerName = envRef.ordCustomerName;
+		  SET outRef.paymentCurrency = envRef.debitCurrency ;
+		  SET outRef.transactionAmount = envRef.transactionAmount ;
+		  SET outRef.executionDate = envRef.exeDate;
+		  SET outRef.narrative = envRef.narrative;
+		  SET outRef.invoiceReference = envRef.invoiceReference;
+		  SET reqMsg = getPayLoad(FIELDNAME(OutputRoot.JSON),outRef,encodeRef,ccidRef);
+		 --   Appending path parameters to stiring
+		  SET RtgsIncomingUrlPathparameters = envRef.drAcctId||'/'||envRef.debitCurrency||'/'||envRef.ordCustomerName||'/'||envRef.debitCurrency||'/'||envRef.transactionAmount||'/'||envRef.exeDate||'/'||envRef.narrative||'/'||envRef.invoiceReference;
+		  SET OutputLocalEnvironment.Destination.HTTP.RequestURL = RtgsReturnsT24Url||RtgsIncomingUrlPathparameters ;
+		   IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............T24 Request Url..........') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',RtgsReturnsT24Url||RtgsIncomingUrlPathparameters) INTO rc;
+		  END IF;	
+		  		 --******************Insertingvalues into ISAVE table with T24 Request Message ************
+		  CALL insertIntoSbIsaveTable(envRef.Guid,CAST(inDomainDataRef.MT103.header.Block1.SessionNumber AS CHARACTER),CAST(CURRENT_TIMESTAMP AS CHARACTER),CAST(inDomainDataRef.MT103.header.Block1.SequenceNum AS CHARACTER),'NA','PENDING',envRef.File.Name,envRef.mtReqMsg,envRef.transactionAmount,envRef.drAcctId,envRef.crAcctId,envRef.exeDate,reqMsg,RtgsReturnsT24Url||RtgsIncomingUrlPathparameters,'NA','PENDING',envRef.File.Status,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'RTGSRETURNS T24 TRANSACTION','PENDING','NA');
+		 END IF;
+		 	  --  SET OutputRoot = NULL;
+			SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'POST';
+			
+			IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............T24 Request..........') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',reqMsg) INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............End of RTGSIncoming  ReqToT24 logging...........') INTO rc;
+			END IF;
+		END;
+		END MODULE;
+CREATE COMPUTE MODULE rtgsIncomingT24Flow_UpdateDatabaseStatus
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL UpdateDatabaseStatus();
+		RETURN TRUE;
+	END;
+	
+	CREATE PROCEDURE UpdateDatabaseStatus() BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		SET Environment.Variables.Statuscode = InputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code";
+		DECLARE reqMsg CHARACTER;
+		IF FIELDNAME(InputBody) LIKE 'JSON' THEN
+			DECLARE inRef REFERENCE TO InputRoot.JSON.Data;
+			SET reqMsg = getPayLoad(FIELDNAME(InputBody),inRef,encodeRef,ccidRef);
+		ELSE
+			DECLARE inRef REFERENCE TO InputRoot.BLOB.BLOB;
+			SET reqMsg = getPayLoad(FIELDNAME(InputBody),inRef,encodeRef,ccidRef);
+		END IF;
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE Guid CHARACTER Environment.Variables.Guid;
+		IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............T24 Response..........') INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',reqMsg) INTO rc;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............End of RTGSIncoming  ResToT24 logging...........') INTO rc;
+			END IF;
+		--***************Updating Database with T24 Status and Response codes***********************
+		IF FIELDNAME(InputRoot) IS NOT NULL THEN
+			 CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','***************Updating T24 Status in Database**********') INTO rc;
+			 IF CONTAINS(CAST(Environment.Variables.Statuscode AS CHARACTER),'200') AND CONTAINS(InputRoot.JSON.Data.header.status,'success') THEN
+			 	CALL UpdateDBStatus(Guid,'SUCCESS',CAST(Environment.Variables.Statuscode AS CHARACTER),' NA',reqMsg,'T24');
+			 	CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Updated Database as Success...........') INTO rc;
+			 ELSE
+			 	CALL UpdateDBStatus(Guid,'FAILURE',CAST(Environment.Variables.Statuscode AS CHARACTER),' NA',reqMsg,'T24');
+			 	CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Updated Database as Failure...........') INTO rc;
+			 	SET OutputLocalEnvironment.Destination.File.Directory = BackendFailure ;
+			 	SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd') ;
+			 	SET OutputRoot.Properties.MessageSet = '{MT103}';
+				SET OutputRoot.Properties.MessageType = '{}:MT103';
+				CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+				parse(Environment.Variables.mtReqMsg ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+				PROPAGATE TO TERMINAL 'out1';
+				SET OutputRoot.DFDL = NULL;
+			 END IF;
+		END IF;	
+		SET OutputRoot = InputRoot;
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = RTGS_INCOMING_SB_Q;
+	END;
+END MODULE;
+CREATE COMPUTE MODULE rtgsIncomingT24Flow_GenerateExceptionDetails
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		CALL BuildErrorMsg();
+		RETURN FALSE;
+	END;
+	CREATE PROCEDURE BuildErrorMsg() BEGIN
+		DECLARE dbLoggingDate TIMESTAMP CURRENT_DATE;
+		DECLARE dbLoggingTime TIMESTAMP CURRENT_TIME;
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE domainDataRef REFERENCE TO InputRoot.XMLNSC;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............Start RTGSIncoming Exception logging...........') INTO rc;
+		END IF;
+		DECLARE excpRef REFERENCE TO InputRoot.XMLNSC.ExceptionDetails;
+		DECLARE outRefer REFERENCE TO OutputRoot;
+		DECLARE exe_Desc CHARACTER'';  
+		IF CONTAINS(excpRef.excpText,'Database') OR CONTAINS(excpRef.excpText,'T24ClientOut,connection refused') OR CONTAINS(excpRef.excpText,'SocketException') OR CONTAINS(excpRef.excpText,'empty name') OR CONTAINS(excpRef.excpText,'odbc')THEN
+			SET OutputLocalEnvironment.Destination.File.Directory = DBFailure;
+			SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd');
+		ELSE
+			SET OutputLocalEnvironment.Destination.File.Directory = FormatFailure;
+			SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd');
+		END IF;	
+		SET OutputRoot.Properties.MessageSet = '{MT103}';
+			SET OutputRoot.Properties.MessageType = '{}:MT103';
+			CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+			parse(Environment.Variables.mtReqMsg ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+			PROPAGATE TO TERMINAL 'out1';
+			SET OutputRoot.DFDL = NULL;
+		CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC NAME 'RTGSIncoming';
+		DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.*;    
+		CALL BuildExceptionDetails(excpRef,outRef,'RTGSIncoming');
+		SET Environment.userDefineError = OutputRoot.XMLNSC;
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = SB_EXCQ ;
+		PROPAGATE TO TERMINAL 'out';
+				-- DB Logging===================
+		SET exe_Desc = getPayLoad(FIELDNAME(InputBody),domainDataRef,encodeRef,ccidRef);
+		CALL writeToLogFile(MessageFlowLabel,'ErrorLogger','ERROR','Exception Details: '||exe_Desc) INTO rc ;
+		CALL Error_DBLogging(Environment.Variables.Guid,Environment.Variables.mtReqMsg,'Application Error',ApplicationLabel,BrokerName,exe_Desc,CAST(dbLoggingTime AS CHARACTER FORMAT 'HHmmss'),CAST(dbLoggingDate AS CHARACTER FORMAT 'yyyyMMdd'),' ',CAST(excpRef.excpNumber AS CHARACTER),Environment.userDefineError.RTGSIncoming.ErrorCode,outRefer);
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = ERROR_AUDIT_Q;
+		PROPAGATE TO TERMINAL 'out';
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............End RTGSIncoming Exception logging...........') INTO rc;
+	END;
+END MODULE;
+--*************Procedure to insert Values into SB_ISAVE_TABLE**********************************
+	CREATE PROCEDURE insertIntoSbIsaveTable(IN PAYNET_GUID CHARACTER,IN PAYNET_STAN_NUM CHARACTER, IN PAYNET_STANDATE CHARACTER
+,IN PAYNET_RRN_REF CHARACTER,IN PAYNET_ISO_REQUEST_MSG CHARACTER,IN PAYNET_ISO_RESPONSE_CODE CHARACTER,IN PAYNET_MT103_FILENAME CHARACTER,IN PAYNET_MT103_FILE CHARACTER,IN PAYNET_MT103_AMOUNT CHARACTER,
+IN PAYNET_MT103_DTACCOUNT CHARACTER,IN PAYNET_MT103_CRACCOUNT CHARACTER,IN PAYNET_MT103_DTDATE CHARACTER,IN PAYNET_MT103_T24_MSG CHARACTER,IN PAYNET_T24URL CHARACTER,
+IN PAYNET_ZSS_STATUS CHARACTER,IN PAYNET_T24_STATUS CHARACTER,IN PAYNET_MT103_STATUS CHARACTER,IN PAYNET_DATECREATED TIMESTAMP,IN PAYNET_DATEUPDATED TIMESTAMP,IN TRANTYPE CHARACTER,IN T24RESPONSE CHARACTER,IN ZSSRESPONSE CHARACTER)
+	LANGUAGE DATABASE
+	EXTERNAL NAME "INSERT_SB_ISAVE_PAYNET";
+		--*********************Procedure to Update Database Status***************
+	CREATE PROCEDURE UpdateDBStatus (IN PAYNET_ID CHARACTER,IN PAYNET_STATUS CHARACTER,IN PAYNET_RESPONSE_CODE CHARACTER,IN PAYNET_REFNUM CHARACTER,IN RESPONSE CHARACTER,IN STR CHARACTER)
+	LANGUAGE DATABASE
+	EXTERNAL NAME "UPDATE_STATUS_SB_RTGS";

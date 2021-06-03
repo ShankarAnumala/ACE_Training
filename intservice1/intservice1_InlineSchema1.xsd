@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://intservice1" xmlns:tns="http://intservice1">
+      <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="Emp">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="EmpId" nillable="true" type="xsd:int"/>
+                <xsd:element name="EmpName" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="EmpResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="EmpMobileNumber" nillable="true" type="xsd:int"/>
+                <xsd:element name="EmpAddress" nillable="true" type="xsd:string"/>
+                <xsd:element name="EmpDesignation" nillable="true" type="xsd:string"/>
+                <xsd:element name="EmpId" nillable="true" type="xsd:int"/>
+                <xsd:element name="EmpName" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>

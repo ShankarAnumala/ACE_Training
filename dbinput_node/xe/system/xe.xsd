@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xe/system" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" xmlns:xesystem="http://xe/system">
+  <!-- Message definition generated from C:\Users\Anumala Shankar\IBM\ACET11\workspace\DB_inputproject\xe.dbm -->
+
+<!-- Complex type for xe.SYSTEM.EMPLOYEES -->
+    <xsd:complexType name="EMPLOYEESType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="EID" nillable="true" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="ENAME" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="15"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="DESIGNATION" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="ADDRESS" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="15"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.SYSTEM.EMPLOYEES -->
+    <xsd:element ibmSchExtn:docRoot="true" name="EMPLOYEES" type="xesystem:EMPLOYEESType"/>
+
+<!-- Complex type for xe.SYSTEM.EMP_EVENT -->
+    <xsd:complexType name="EMP_EVENTType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="EVENTID" nillable="true" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="EID" nillable="true" type="xsd:float"/>
+      <xsd:element minOccurs="0" name="EVENT_DESC" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="15"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for xe.SYSTEM.EMP_EVENT -->
+    <xsd:element ibmSchExtn:docRoot="true" name="EMP_EVENT" type="xesystem:EMP_EVENTType"/>
+</xsd:schema>

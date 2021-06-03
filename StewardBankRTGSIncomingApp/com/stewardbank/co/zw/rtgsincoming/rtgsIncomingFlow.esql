@@ -1,0 +1,231 @@
+/*
+Author:Swathi
+Version:0.0.1
+Date of Creation:6-07-2020
+Date of Modification:20-7-2020,30-7-2020,11-8-2020,22-9-2020,27-10-2020
+Description:Pick file from remote location and based on the account send request to t24 or zss.
+			If it is t24 account then send to T24 Application else sends to ZSS Application.
+ 			
+*/
+BROKER SCHEMA com.stewardbank.co.zw.rtgsincoming
+
+PATH com.stewardbank.co.zw.common.esql;
+DECLARE LOG_CONFIG_PATH,LOG4J_INIT_ERROR,SB_EXCQ,ERROR_AUDIT_Q,IsLogRequired,ZSS_REQ,T24_REQ,DSN ,DBFailure,FormatFailure EXTERNAL CHARACTER '';
+DECLARE UUID SHARED CHARACTER '';
+CREATE COMPUTE MODULE rtgsIncomingFlow_GenerateMt103Req
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL BuildMT103FromRaw();
+		RETURN TRUE;
+	END;
+	/*
+	build MT103 from raw data recevied from remote location
+	*/
+	CREATE PROCEDURE BuildMT103FromRaw() BEGIN
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE reqMsg CHARACTER;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE domainDataRef REFERENCE TO InputRoot.BLOB;
+		SET Environment.Variables.File.Name = InputLocalEnvironment.File.Name;
+		SET UUID = UUIDASCHAR;
+		SET Environment.Variables.Guid = UUID;
+		IF (InputLocalEnvironment.File.Name NOT LIKE ' ') THEN
+			SET Environment.Variables.File.Status = 'SUCCESS';
+		ELSE
+			SET Environment.Variables.File.Status = 'FAILURE'; 	
+		END IF;
+		SET reqMsg = getPayLoad(FIELDNAME(InputBody),domainDataRef,encodeRef,ccidRef);
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Start RTGSIncoming logging...........') INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','RTGSIncoming Request in RAW data start') INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',reqMsg) INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','RTGSIncoming Request in RAW data end') INTO rc;
+		END IF;
+		SET OutputRoot.Properties.MessageSet = '{MT103}';
+		SET OutputRoot.Properties.MessageType = '{}:MT103';
+		CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+		parse(InputRoot.BLOB.BLOB ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+		DECLARE outDomainDataRef REFERENCE TO OutputRoot.DFDL;
+		SET Environment.Variables.mtReqMsg = getPayLoad(FIELDNAME(OutputRoot.DFDL.MT103),outDomainDataRef,encodeRef,ccidRef);
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','RTGSIncoming Request Original start') INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG',Environment.Variables.mtReqMsg) INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','RTGSIncoming Request Original end') INTO rc;
+		END IF;
+	END;
+END MODULE;
+CREATE COMPUTE MODULE rtgsIncomingFlow_RouteToT24orZss
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		SET OutputRoot.Properties = InputRoot.Properties;
+		CALL GeneratingReqToT24orZSS();
+		RETURN TRUE;
+	END;
+	/*
+	Log Incoming Request i.e MT103 in RTGS_INCOMING_DETAILS Table and form ISO8583 if account is in T24 or
+	else form MT103 
+	*/
+	CREATE PROCEDURE GeneratingReqToT24orZSS() BEGIN
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE reqMsg,crAcctId,exDate,trnAmount CHARACTER ;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE inDomainDataRef REFERENCE TO InputRoot.DFDL;
+		DECLARE envRef REFERENCE TO Environment.Variables ;
+		DECLARE sql CHARACTER;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET envRef.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Start RTGSIncoming Routing To T24 or ZSS...........') INTO rc;
+		END IF;
+		DECLARE Response ROW;
+		DECLARE CRLF CHARACTER CAST(X'0D0A' AS CHARACTER CCSID 1208);
+		SET trnAmount = LTRIM(SUBSTRING(inDomainDataRef.MT103.body.MT32A FROM 10)); 
+		IF CONTAINS(trnAmount,',') THEN
+			SET envRef.transactionAmount = SUBSTRING(trnAmount BEFORE ','); 
+		ELSE
+			SET envRef.transactionAmount = trnAmount ;
+		END IF;
+		SET exDate = SUBSTRING(inDomainDataRef.MT103.body.MT32A FROM 1 FOR 6);
+		DECLARE tranDate DATE;
+		SET tranDate = cast(exDate as date  format 'yyMMdd');
+		DECLARE castDate CHARACTER ;
+	    SET castDate = CAST(tranDate as CHARACTER FORMAT 'yyyyMMdd');
+		DECLARE Mt50DataAdd CHARACTER SUBSTRING(inDomainDataRef.MT103.body.MT50Data.MT50DataField AFTER CRLF);
+		IF (Mt50DataAdd LIKE '') THEN
+			SET Mt50DataAdd = inDomainDataRef.MT103.body.MT50Data.MT50DataField ;
+		END IF;
+		SET envRef.exeDate = castDate;
+		-- SET envRef.transactionAmount = LTRIM(SUBSTRING(inDomainDataRef.MT103.body.MT32A FROM 10)); 
+		SET envRef.drAcctId = SUBSTRING(SUBSTRING(inDomainDataRef.MT103.body.MT50Data.MT50DataField AFTER '/')BEFORE CRLF);
+		SET  crAcctId = SUBSTRING(SUBSTRING(inDomainDataRef.MT103.body.MT59Data.MT59DataField AFTER '/')BEFORE CRLF);
+		SET envRef.crAcctId = crAcctId;
+		SET envRef.debitCurrency = SUBSTRING(inDomainDataRef.MT103.body.MT32A FROM 7 FOR 3); 
+		IF CONTAINS(Mt50DataAdd,CRLF) THEN
+			SET envRef.ordCustomerName = SUBSTRING(Mt50DataAdd BEFORE CRLF);
+		ELSE
+			SET envRef.ordCustomerName = Mt50DataAdd;	
+		END IF;
+		IF CONTAINS(envRef.ordCustomerName,'/') THEN
+			SET envRef.ordCustomerName = REPLACE(envRef.ordCustomerName,'/','');
+		END IF;
+		
+		SET envRef.narrative = LTRIM(inDomainDataRef.MT103.body.MT20);
+		SET envRef.Nation = SUBSTRING(Mt50DataAdd AFTER CRLF);
+		DECLARE mtField70 CHARACTER inDomainDataRef.MT103.body.MT70 ;
+			IF ( mtField70 NOT LIKE ' ') THEN
+				IF CONTAINS(mtField70,CRLF) THEN
+					SET envRef.invoiceReference = SUBSTRING(mtField70 BEFORE CRLF);
+				END IF;
+				SET envRef.invoiceReference = mtField70 ;
+			ELSE 
+				SET envRef.invoiceReference ='NOTPROVIDED';
+			END IF;
+		DECLARE mtField72 CHARACTER SUBSTRING(inDomainDataRef.MT103.body.MT72 BEFORE CRLF) ;
+			IF ( mtField72 NOT LIKE ' ' ) THEN
+				IF STARTSWITH(mtField72,'/') THEN
+					SET mtField72 = SUBSTRING(mtField72 AFTER '/');	
+				END IF;
+				SET mtField72 = REPLACE(mtField72,'/',' ') ;
+				SET envRef.endToEndReference = mtField72 ;
+				IF  LENGTH(mtField72) >= 35 THEN
+					SET envRef.endToEndReference = SUBSTRING(mtField72 FROM 1 FOR 35) ;
+				END IF;
+			ELSE
+				SET envRef.endToEndReference = 'NOTPROVIDED';
+			END IF;
+		IF envRef.transactionAmount < '0' THEN
+			IF IsLogRequired LIKE 'Y' THEN
+				CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','****RTGSIncoming Transaction Failed because of Negative amount****') INTO rc;
+				CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','****End of RTGSIncoming Transaction Logging ****') INTO rc;
+			END IF ;	
+			CALL insertIntoSbIsaveTable(envRef.Guid,CAST(inDomainDataRef.MT103.header.Block1.SessionNumber AS CHARACTER),CAST(CURRENT_TIMESTAMP AS CHARACTER),CAST(inDomainDataRef.MT103.header.Block1.SequenceNum AS CHARACTER),'NA','NEGATIVE AMOUNT',envRef.File.Name,'NA',envRef.transactionAmount,envRef.drAcctId,envRef.crAcctId,envRef.exeDate,'NA','NA','FAILURE','FAILURE',envRef.File.Status,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'NA','FAILURE DUE TO NEGATIVE AMOUNT','FAILURE DUE TO NEGATIVE AMOUNT');
+			SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = RTGS_INCOMING_SB_Q ;
+		ELSE
+			--get account details from db to check weather Account belongs to Zss or T24
+			SET sql='SELECT * FROM ISAVE_CARD_MAPPING WHERE ACCOUNT_ID=?';
+			SET Response.accountEnquiry[] = PASSTHRU(sql TO Database.{DSN} VALUES(crAcctId));
+			--*************If Account Exist in Isave table or it starts with 2 then it is ZSS Account**********
+			IF EXISTS(Response.accountEnquiry.*[]) OR STARTSWITH(crAcctId,'2') THEN
+				-- Routing to Zss Application
+				IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Account Exists in Zss ,Routing Req to Zss Flow...........') INTO rc;
+				END IF;
+				SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = ZSS_REQ;
+			ELSE
+				-- Routing to T24 Application
+				IF IsLogRequired LIKE 'Y' THEN
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............Account Exists in T24 ,Routing Req to T24 Flow...........') INTO rc;
+				END IF;
+				SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = T24_REQ;
+			END IF;
+			CALL writeToLogFile(MessageFlowLabel, 'RTGSIncoming', 'DEBUG','..............End of RTGSIncoming  Routing...........') INTO rc;
+		END IF ;	
+			SET OutputRoot.MQRFH2 = envRef;
+			SET OutputRoot.DFDL = InputRoot.DFDL; 
+--		SET OutputRoot.Properties.MessageSet = '{MT103}';
+--		SET OutputRoot.Properties.MessageType = '{}:MT103';
+		--CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL') PARSE(InputRoot.DFDL ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+		END;
+		END MODULE;
+CREATE COMPUTE MODULE rtgsIncomingFlow__GenerateExceptionDetails
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputRoot.Properties;
+		CALL BuildErrorMsg();
+		RETURN FALSE;
+	END;
+	CREATE PROCEDURE BuildErrorMsg() BEGIN
+		DECLARE dbLoggingDate TIMESTAMP CURRENT_DATE;
+		DECLARE dbLoggingTime TIMESTAMP CURRENT_TIME;
+		DECLARE rc BOOLEAN FALSE;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		DECLARE domainDataRef REFERENCE TO InputRoot.XMLNSC;
+		CALL initLog4j(LOG_CONFIG_PATH) INTO rc;
+		IF (rc = FALSE) THEN
+			SET Environment.Variables.Log4j.ErrorMsg = LOG4J_INIT_ERROR;
+		END IF;
+		IF IsLogRequired LIKE 'Y' THEN
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............Start RTGSIncoming Exception logging...........') INTO rc;
+		END IF;
+		DECLARE excpRef REFERENCE TO InputRoot.XMLNSC.ExceptionDetails;
+		DECLARE outRefer REFERENCE TO OutputRoot;
+		DECLARE exe_Desc CHARACTER'';  
+		IF CONTAINS(excpRef.excpText,'Database') OR CONTAINS(excpRef.excpText,'T24ClientOut,connection refused') OR CONTAINS(excpRef.excpText,'SocketException') THEN
+			SET OutputLocalEnvironment.Destination.File.Directory = DBFailure;
+			SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd');
+		ELSE
+			SET OutputLocalEnvironment.Destination.File.Directory = FormatFailure;
+			SET OutputLocalEnvironment.Destination.File.Name = Environment.Variables.File.Name||'_'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMdd');
+		END IF;	
+		SET OutputRoot.Properties.MessageSet = '{MT103}';
+			SET OutputRoot.Properties.MessageType = '{}:MT103';
+			CREATE LASTCHILD OF OutputRoot DOMAIN('DFDL')
+			parse(Environment.Variables.mtReqMsg ENCODING encodeRef CCSID ccidRef SET '{MT103}' TYPE '{}:MT103');
+			PROPAGATE TO TERMINAL 'out1';
+			SET OutputRoot.DFDL = NULL;
+		CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC NAME 'RTGSIncoming';
+		DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.*;    
+		CALL BuildExceptionDetails(excpRef,outRef,'RTGSIncoming');
+		SET Environment.userDefineError = OutputRoot.XMLNSC;
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = SB_EXCQ ;
+		PROPAGATE TO TERMINAL 'out';
+				-- DB Logging===================
+		SET exe_Desc = getPayLoad(FIELDNAME(InputBody),domainDataRef,encodeRef,ccidRef);
+		CALL writeToLogFile(MessageFlowLabel,'ErrorLogger','ERROR','Exception Details: '||exe_Desc) INTO rc ;
+		CALL Error_DBLogging(Environment.Variables.Guid,Environment.Variables.mtReqMsg,'Application Error',ApplicationLabel,BrokerName,exe_Desc,CAST(dbLoggingTime AS CHARACTER FORMAT 'HHmmss'),CAST(dbLoggingDate AS CHARACTER FORMAT 'yyyyMMdd'),' ',CAST(excpRef.excpNumber AS CHARACTER),Environment.userDefineError.RTGSIncoming.ErrorCode,outRefer);
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = ERROR_AUDIT_Q;
+		PROPAGATE TO TERMINAL 'out';
+		CALL writeToLogFile(MessageFlowLabel, 'ErrorLogger', 'ERROR','..............End RTGSIncoming Exception logging...........') INTO rc;
+	END;
+END MODULE;

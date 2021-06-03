@@ -1,0 +1,35 @@
+
+
+CREATE COMPUTE MODULE Provider222_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		   CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		IF InputLocalEnvironment.Destination.RouterList.DestinationData.labelName='Addition' THEN
+			SET OutputRoot.SOAP.Body.ns:AdditionResponse.Add = InputRoot.SOAP.Body.ns:Addition.a+InputRoot.SOAP.Body.ns:Addition.b;
+			
+		ELSEIF InputLocalEnvironment.Destination.RouterList.DestinationData.labelName='Subtraction' THEN
+		SET OutputRoot.SOAP.Body.ns:SubtractionResponse.Sub = InputRoot.SOAP.Body.ns:Addition.a-InputRoot.SOAP.Body.ns:Addition.b;	
+		
+		ELSEIF InputLocalEnvironment.Destination.RouterList.DestinationData.labelName='Multiplication' THEN
+		SET OutputRoot.SOAP.Body.ns:MultiplicationResponse.Mul = InputRoot.SOAP.Body.ns:Addition.a*InputRoot.SOAP.Body.ns:Addition.b;	
+		
+		ELSE
+			SET OutputRoot.SOAP.Body.ns:DivisionResponse.Div = InputRoot.SOAP.Body.ns:Addition.a/InputRoot.SOAP.Body.ns:Addition.b;	
+		END IF;
+	END;
+END MODULE;

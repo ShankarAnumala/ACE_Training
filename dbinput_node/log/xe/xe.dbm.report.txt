@@ -1,0 +1,19 @@
+
+
+Importing file: C:\Users\Anumala Shankar\IBM\ACET11\workspace\DB_inputproject\xe.dbm
+
+
+Processing schema SYSTEM.
+Creating complex type for table EMPLOYEES.
+Creating global element for table EMPLOYEES.
+Creating complex type for table EMP_EVENT.
+Creating global element for table EMP_EVENT.
+Creating file \dbinput_node\xe\system\xe.xsd in the workspace.
+
+Elapsed time processing this message definition file: 11.82 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

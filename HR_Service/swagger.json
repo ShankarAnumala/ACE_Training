@@ -1,0 +1,166 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "HR Employee and Department Services",
+    "version" : "1.0.0",
+    "description" : "HR_Service"
+  },
+  "paths" : {
+    "/departments" : {
+      "get" : {
+        "operationId" : "retrieveDepartment",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/DepartmentResponse"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve departments"
+      },
+      "post" : {
+        "operationId" : "insertDepartment",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/DepartmentResponse"
+            }
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a departments",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/DEPARTMENT"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        }, {
+          "name" : "departmentKey",
+          "in" : "query",
+          "type" : "string",
+          "required" : false,
+          "description" : "Department record key"
+        } ]
+      }
+    },
+    "/departments/cache" : {
+      "get" : {
+        "operationId" : "getFromCache",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/DEPARTMENT"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve cache",
+        "parameters" : [ {
+          "name" : "departmentKey",
+          "in" : "query",
+          "type" : "string",
+          "required" : true,
+          "description" : "key to retrieve from cache"
+        } ]
+      },
+      "post" : {
+        "operationId" : "LoadCache",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a cache",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/DEPARTMENT"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        }, {
+          "name" : "departmentKey",
+          "in" : "query",
+          "type" : "string"
+        } ]
+      }
+    }
+  },
+  "basePath" : "/HRDB_RESTServices/resources",
+  "definitions" : {
+    "DEPARTMENT" : {
+      "type" : "object",
+      "properties" : {
+        "DEPTNO" : {
+          "type" : "string"
+        },
+        "DEPTNAME" : {
+          "type" : "string"
+        },
+        "MGRNO" : {
+          "type" : "string"
+        },
+        "ADMRDEPT" : {
+          "type" : "string"
+        },
+        "LOCATION" : {
+          "type" : "string"
+        }
+      }
+    },
+    "DBRESP" : {
+      "type" : "object",
+      "properties" : {
+        "UserReturnCode" : {
+          "type" : "integer"
+        },
+        "RowsRetrieved" : {
+          "type" : "integer"
+        },
+        "RowsAdded" : {
+          "type" : "integer"
+        },
+        "RowsUpdated" : {
+          "type" : "integer"
+        },
+        "RowsDeleted" : {
+          "type" : "integer"
+        },
+        "SQLCODE_Errorcode" : {
+          "type" : "string"
+        },
+        "SQLSTATE_SQLState" : {
+          "type" : "string"
+        },
+        "SQL_Error_Message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "DepartmentResponse" : {
+      "type" : "object",
+      "properties" : {
+        "DBResp" : {
+          "$ref" : "#/definitions/DBRESP"
+        },
+        "Department" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/DEPARTMENT"
+          }
+        }
+      }
+    }
+  }
+}
