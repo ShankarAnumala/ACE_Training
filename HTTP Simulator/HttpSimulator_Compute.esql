@@ -1,0 +1,20 @@
+
+
+CREATE COMPUTE MODULE HttpSimulator_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE operation CHARACTER FIELDNAME(InputRoot.XMLNSC.[>]);
+		DECLARE sopeRef REFERENCE TO InputRoot.XMLNSC;
+		DECLARE ccidRef INTEGER InputRoot.Properties.CodedCharSetId;
+		DECLARE encodeRef INTEGER InputRoot.Properties.Encoding;
+		 DECLARE Response ROW; 
+		SET Response.values[]=PASSTHRU('SELECT RESPONSE FROM  CBS_T24_RESPONSE A  WHERE A.SERVICE_NAME=?',operation);
+		CREATE LASTCHILD OF OutputRoot DOMAIN('XMLNSC') PARSE(Response.values.RESPONSE ENCODING InputRoot.Properties.Encoding CCSID InputRoot.Properties.CodedCharSetId);
+	END;
+	
+END MODULE;
