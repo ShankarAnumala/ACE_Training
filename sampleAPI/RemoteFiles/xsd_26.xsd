@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/ACCTBALCTS" version="1.0">
+
+<xsd:complexType name="ACCTBALCTSType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ZERORECORDS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gACCTBALCTSDetailType">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="mACCTBALCTSDetailType">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="AccountNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Customer" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AcctNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Name" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Limitref" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Product" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Ccy" type="xsd:string"/>
+<xsd:element minOccurs="0" name="WorkingBal" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LedgerBal" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ClearedBal" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DateFrom" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LockedAmount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="UseableBal" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LMAMOUNT" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="m" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

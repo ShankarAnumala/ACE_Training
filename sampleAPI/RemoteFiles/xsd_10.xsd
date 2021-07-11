@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/CHQPRESENTEDWS" version="1.0">
+
+<xsd:complexType name="CHQPRESENTEDWSType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="AccountNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ACCNAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ZERORECORDS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gCHQPRESENTEDWSDetailType">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="mCHQPRESENTEDWSDetailType">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="AccountNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ChequeNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BCACCTNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ChequeType" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CheqNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Amount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="PresentedClearedDate" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="m" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

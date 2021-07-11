@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/PAYMENTSTOPINPUTWS" version="1.0">
+
+<xsd:complexType name="PAYMENTSTOPINPUTWSType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="AccountCurrency" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gPAYMSTOPTYPE">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="mPAYMSTOPTYPE">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="PaymentStopType" type="xsd:string"/>
+<xsd:element minOccurs="0" name="FirstChequeNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LastChequeNo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="NoofLeaves" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ChequeType" type="xsd:string"/>
+<xsd:element minOccurs="0" name="StopDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AmountFrom" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AmountTo" type="xsd:string"/>
+<xsd:element minOccurs="0" name="StopActive" type="xsd:string"/>
+<xsd:element minOccurs="0" name="WaiveCharges" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Beneficiary" type="xsd:string"/>
+<xsd:element minOccurs="0" name="StopExpiryDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="sgREMARKS">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Remarks">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="Remarks" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="s" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="sg" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="sgCHARGECODE">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="ChargeCode">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ChargeCode" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ChargeAccount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ChargeCurrency" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ChargeAmount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TaxType" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TaxAmount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TaxCurrency" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TaxDate" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="s" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="sg" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="m" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="CustomerID" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="id" type="xsd:string"/>
+</xsd:complexType>
+</xsd:schema>

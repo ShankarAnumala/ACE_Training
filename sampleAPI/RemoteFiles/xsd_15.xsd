@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/CBOCARDREGDET" version="1.0">
+
+<xsd:complexType name="CBOCARDREGDETType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="CUSTOMERID" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CUSTITLE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CARDREQTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DEBITCARDTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="FIRSTNAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="MIDDLENAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LASTNAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="NAMEONCARD" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ACCOUNTTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ACCURRENCY" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BRANCHCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BIRTHDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BIRTHLOC" type="xsd:string"/>
+<xsd:element minOccurs="0" name="MARITALSTATUS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="GENDER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="IDENTITYNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="IDENTITYTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CREATIONDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="NATIONALITY" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ADDRESSTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ADDRESS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="PHONENO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="EMAIL" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHARGE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHARGEDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHARGECOLL" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CARDSTATUS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="FILEEXPSTATUS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="FILEEXPDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="STMTNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CARDNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CARDEXPIREDDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RECORDSTATUS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CURRNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="INPUTTER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DATETIME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AUTHORISER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="COCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DEPTCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AUDITORCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AUDITDATETIME" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="id" type="xsd:string"/>
+</xsd:complexType>
+</xsd:schema>

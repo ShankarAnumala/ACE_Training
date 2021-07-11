@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/ACLOCKEDEVENTSCTS" version="1.0">
+
+<xsd:complexType name="ACLOCKEDEVENTSCTSType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="AccountNumber" type="xsd:string"/>
+<xsd:element minOccurs="0" name="Description" type="xsd:string"/>
+<xsd:element minOccurs="0" name="FromDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ToDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LockedAmount" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="id" type="xsd:string"/>
+</xsd:complexType>
+</xsd:schema>

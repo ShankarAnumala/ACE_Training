@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/ATMTRANSACTIONPSS" version="1.0">
+
+<xsd:complexType name="ATMTRANSACTIONPSSType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="TRANSREF" type="xsd:string"/>
+<xsd:element minOccurs="0" name="COMPANYCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="VALUEDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BOOKINGDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DEBITACCTNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DRCUSTOMERID" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CREDITACCTNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TXNAMOUNT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DRTXNCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CRTXNCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHARGECODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGAMOUNT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGACCOUNT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGCUSTID" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGCRACCT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGDRTXNCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGCRTXNCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="NARRATIVE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CURRENCYMARKET" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TRANSSTATUS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="REVERSALFLAG" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ORIGSTMTNOS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="STMTNOS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="NETWORKTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BINREFERENCE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="PANNUMBER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LOCKEDAMOUNT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="LINKEDTRANS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AUTHCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RETRIEVALREFNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ACQORISS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ATMORPOS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="MTICODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="PROCCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="MERCHANTID" type="xsd:string"/>
+<xsd:element minOccurs="0" name="VERSIONNAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CARDACCID" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CARDACCNAMELOC" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGVERSIONNAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gCHRGTRANSREF">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="mCHRGTRANSREF">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="CHRGTRANSREF" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGDEBITAC" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGCREDITAC" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGAMT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CHRGSTMTNOS" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="m" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="ERRORMSG" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ERRORCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ISONUMBER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="STANNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TIMESTAMP" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TXNTYPE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DEPARTMENTCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="ACCOUNTOFFICER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BALAFTTXN" type="xsd:string"/>
+<xsd:element minOccurs="0" name="GENMAPPINGID" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED10" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED9" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED8" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED7" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED6" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED5" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED4" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED3" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED2" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RESERVED1" type="xsd:string"/>
+<xsd:element minOccurs="0" name="RECORDSTATUS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CURRNO" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gINPUTTER">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="INPUTTER" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="gDATETIME">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="DATETIME" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="AUTHORISER" type="xsd:string"/>
+<xsd:element minOccurs="0" name="COCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DEPTCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AUDITORCODE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AUDITDATETIME" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="id" type="xsd:string"/>
+</xsd:complexType>
+</xsd:schema>

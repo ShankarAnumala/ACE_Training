@@ -1,0 +1,280 @@
+
+
+Importing file: C:\ACE_Workspaces\CBO\sampleAPI\new33.wsdl
+
+
+The following is a list of WS-I warning messages found when importing:
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=1' has not been resolved because the import is unused, Line: 4, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/PINCHANGEREQINPACE', Line: 4, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=12' has not been resolved because the import is unused, Line: 7, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/PINCHANGEREQ', Line: 7, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=23' has not been resolved because the import is unused, Line: 10, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/PAYMENTSTOPREVOKECBOWS', Line: 10, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=29' has not been resolved because the import is unused, Line: 13, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/PAYMENTSTOPINPUTWS', Line: 13, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=30' has not been resolved because the import is unused, Line: 16, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/PAYMENTSTOP', Line: 16, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=32' has not been resolved because the import is unused, Line: 22, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/IMAGEVIEWFINDNEW', Line: 22, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=33' has not been resolved because the import is unused, Line: 25, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/GETLOANDETAILS', Line: 25, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=34' has not been resolved because the import is unused, Line: 28, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/FUNDSTRANSFERPSS', Line: 28, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=2' has not been resolved because the import is unused, Line: 31, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/FUNDSTRANSFERECX1', Line: 31, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=3' has not been resolved because the import is unused, Line: 34, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/FUNDSTRANSFERACTRMMT', Line: 34, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=4' has not been resolved because the import is unused, Line: 37, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/FUNDSTRANSFER', Line: 37, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=5' has not been resolved because the import is unused, Line: 40, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/EMMTTXNFT', Line: 40, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=6' has not been resolved because the import is unused, Line: 43, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/EMMTMINISTMTDATE', Line: 43, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=7' has not been resolved because the import is unused, Line: 46, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/EMMTMINISTMT', Line: 46, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=8' has not been resolved because the import is unused, Line: 49, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ECXNEWACCT', Line: 49, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=9' has not been resolved because the import is unused, Line: 52, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CURRENCYRATES', Line: 52, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=10' has not been resolved because the import is unused, Line: 55, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CHQPRESENTEDWS', Line: 55, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=11' has not been resolved because the import is unused, Line: 58, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CHEQUEISSUEINPUTCBOWS', Line: 58, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=13' has not been resolved because the import is unused, Line: 61, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CHEQUEISSUE', Line: 61, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=14' has not been resolved because the import is unused, Line: 64, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CBOCARDREGDETINP2', Line: 64, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=15' has not been resolved because the import is unused, Line: 67, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CBOCARDREGDET', Line: 67, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=16' has not been resolved because the import is unused, Line: 70, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CARDISSUEDELWS', Line: 70, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=17' has not been resolved because the import is unused, Line: 73, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/CARDISSUE', Line: 73, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=18' has not been resolved because the import is unused, Line: 76, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ATMTRANSACTIONPSS', Line: 76, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=19' has not been resolved because the import is unused, Line: 79, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ATMTRANSACTION', Line: 79, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=20' has not been resolved because the import is unused, Line: 82, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ATMTERMINALACCTACE', Line: 82, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=21' has not been resolved because the import is unused, Line: 85, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ACLOCKEDEVENTSCTS', Line: 85, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=22' has not been resolved because the import is unused, Line: 88, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ACLOCKEDEVENTS', Line: 88, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=24' has not been resolved because the import is unused, Line: 91, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ACCTVIEW', Line: 91, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=25' has not been resolved because the import is unused, Line: 94, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ACCTCOMPANYVIEW', Line: 94, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=26' has not been resolved because the import is unused, Line: 97, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ACCTBALCTS', Line: 97, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=27' has not been resolved because the import is unused, Line: 100, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://temenos.com/ACCTBAL', Line: 100, Column: 1
+XSD: The location 'http://10.1.245.189:9081/TWSMMT/services?xsd=28' has not been resolved because the import is unused, Line: 103, Column: 1
+XSD: There is no xmlns declaration for namespace 'http://jaxb.dev.java.net/array', Line: 103, Column: 1
+
+
+The WSDL import will proceed with bindings T24WebServicesImplPortBinding.
+Creating wsdl schema document for file:///C:/ACE_Workspaces/CBO/sampleAPI/new33.wsdl.
+Parsing wsdl binding {http://temenos.com/MMT}T24WebServicesImplPortBinding.
+Parsing wsdl binding input callOfs.
+Parsing wsdl binding output callOfs.
+Parsing wsdl binding input DEBITCARDREQUEST.
+Parsing wsdl binding output DEBITCARDREQUEST.
+Parsing wsdl binding input DEBITCARDREQUEST_Validate.
+Parsing wsdl binding output DEBITCARDREQUEST_Validate.
+Parsing wsdl binding input ECXFT.
+Parsing wsdl binding output ECXFT.
+Parsing wsdl binding input ECXFT_Validate.
+Parsing wsdl binding output ECXFT_Validate.
+Parsing wsdl binding input STOPPAYMENTCHEQUE.
+Parsing wsdl binding output STOPPAYMENTCHEQUE.
+Parsing wsdl binding input STOPPAYMENTCHEQUE_Validate.
+Parsing wsdl binding output STOPPAYMENTCHEQUE_Validate.
+Parsing wsdl binding input ECXAccountBal.
+Parsing wsdl binding output ECXAccountBal.
+Parsing wsdl binding input STMTDATE.
+Parsing wsdl binding output STMTDATE.
+Parsing wsdl binding input CHEQUESTATUS.
+Parsing wsdl binding output CHEQUESTATUS.
+Parsing wsdl binding input DEBITACCOUNT.
+Parsing wsdl binding output DEBITACCOUNT.
+Parsing wsdl binding input MMTFTVIEW.
+Parsing wsdl binding output MMTFTVIEW.
+Parsing wsdl binding input MMTSTMT.
+Parsing wsdl binding output MMTSTMT.
+Parsing wsdl binding input CURRENCYRATES.
+Parsing wsdl binding output CURRENCYRATES.
+Parsing wsdl binding input PSSATM.
+Parsing wsdl binding output PSSATM.
+Parsing wsdl binding input PSSATM_Validate.
+Parsing wsdl binding output PSSATM_Validate.
+Parsing wsdl binding input AccountDetails.
+Parsing wsdl binding output AccountDetails.
+Parsing wsdl binding input ECXFTReversal.
+Parsing wsdl binding output ECXFTReversal.
+Parsing wsdl binding input ECXFTReversal_Validate.
+Parsing wsdl binding output ECXFTReversal_Validate.
+Parsing wsdl binding input ACCTBRANCH.
+Parsing wsdl binding output ACCTBRANCH.
+Parsing wsdl binding input MMTACCTTXN.
+Parsing wsdl binding output MMTACCTTXN.
+Parsing wsdl binding input MMTACCTTXN_Validate.
+Parsing wsdl binding output MMTACCTTXN_Validate.
+Parsing wsdl binding input PSSFT.
+Parsing wsdl binding output PSSFT.
+Parsing wsdl binding input PSSFT_Validate.
+Parsing wsdl binding output PSSFT_Validate.
+Parsing wsdl binding input CHEQUEBOOKREQUEST.
+Parsing wsdl binding output CHEQUEBOOKREQUEST.
+Parsing wsdl binding input CHEQUEBOOKREQUEST_Validate.
+Parsing wsdl binding output CHEQUEBOOKREQUEST_Validate.
+Parsing wsdl binding input RELEASEFUND.
+Parsing wsdl binding output RELEASEFUND.
+Parsing wsdl binding input RELEASEFUND_Validate.
+Parsing wsdl binding output RELEASEFUND_Validate.
+Parsing wsdl binding input PINCHANGEREQINPACE.
+Parsing wsdl binding output PINCHANGEREQINPACE.
+Parsing wsdl binding input PINCHANGEREQINPACE_Validate.
+Parsing wsdl binding output PINCHANGEREQINPACE_Validate.
+Parsing wsdl binding input BLOCKFUNDS.
+Parsing wsdl binding output BLOCKFUNDS.
+Parsing wsdl binding input BLOCKFUNDS_Validate.
+Parsing wsdl binding output BLOCKFUNDS_Validate.
+Parsing wsdl binding input ACCOUNTSUMMARY.
+Parsing wsdl binding output ACCOUNTSUMMARY.
+Parsing wsdl binding input GETLOANDETAILS.
+Parsing wsdl binding output GETLOANDETAILS.
+Parsing wsdl binding input REVOKESTOPPAYMENTCHEQUE.
+Parsing wsdl binding output REVOKESTOPPAYMENTCHEQUE.
+Parsing wsdl binding input REVOKESTOPPAYMENTCHEQUE_Validate.
+Parsing wsdl binding output REVOKESTOPPAYMENTCHEQUE_Validate.
+Parsing wsdl binding input MMTACCTBALANCE.
+Parsing wsdl binding output MMTACCTBALANCE.
+Parsing wsdl binding input IMAGEVIEW.
+Parsing wsdl binding output IMAGEVIEW.
+Parsing wsdl binding input ACCOUNTVIEW.
+Parsing wsdl binding output ACCOUNTVIEW.
+Parsing wsdl binding input ECXNEWACCT.
+Parsing wsdl binding output ECXNEWACCT.
+Parsing wsdl binding input CancelDebitCard.
+Parsing wsdl binding output CancelDebitCard.
+Parsing wsdl binding input CancelDebitCard_Validate.
+Parsing wsdl binding output CancelDebitCard_Validate.
+Processing doc style for operation callOfs.
+Processing doc style for operation DEBITCARDREQUEST.
+Processing doc style for operation DEBITCARDREQUEST_Validate.
+Processing doc style for operation ECXFT.
+Processing doc style for operation ECXFT_Validate.
+Processing doc style for operation STOPPAYMENTCHEQUE.
+Processing doc style for operation STOPPAYMENTCHEQUE_Validate.
+Processing doc style for operation ECXAccountBal.
+Processing doc style for operation STMTDATE.
+Processing doc style for operation CHEQUESTATUS.
+Processing doc style for operation DEBITACCOUNT.
+Processing doc style for operation MMTFTVIEW.
+Processing doc style for operation MMTSTMT.
+Processing doc style for operation CURRENCYRATES.
+Processing doc style for operation PSSATM.
+Processing doc style for operation PSSATM_Validate.
+Processing doc style for operation AccountDetails.
+Processing doc style for operation ECXFTReversal.
+Processing doc style for operation ECXFTReversal_Validate.
+Processing doc style for operation ACCTBRANCH.
+Processing doc style for operation MMTACCTTXN.
+Processing doc style for operation MMTACCTTXN_Validate.
+Processing doc style for operation PSSFT.
+Processing doc style for operation PSSFT_Validate.
+Processing doc style for operation CHEQUEBOOKREQUEST.
+Processing doc style for operation CHEQUEBOOKREQUEST_Validate.
+Processing doc style for operation RELEASEFUND.
+Processing doc style for operation RELEASEFUND_Validate.
+Processing doc style for operation PINCHANGEREQINPACE.
+Processing doc style for operation PINCHANGEREQINPACE_Validate.
+Processing doc style for operation BLOCKFUNDS.
+Processing doc style for operation BLOCKFUNDS_Validate.
+Processing doc style for operation ACCOUNTSUMMARY.
+Processing doc style for operation GETLOANDETAILS.
+Processing doc style for operation REVOKESTOPPAYMENTCHEQUE.
+Processing doc style for operation REVOKESTOPPAYMENTCHEQUE_Validate.
+Processing doc style for operation MMTACCTBALANCE.
+Processing doc style for operation IMAGEVIEW.
+Processing doc style for operation ACCOUNTVIEW.
+Processing doc style for operation ECXNEWACCT.
+Processing doc style for operation CancelDebitCard.
+Processing doc style for operation CancelDebitCard_Validate.
+Populating WSDL schema new33.xsd.
+Removing unnecessary import statement with namespace http://temenos.com/PINCHANGEREQINPACE from schema new33_InlineSchema1.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/PINCHANGEREQ from schema new33_InlineSchema2.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/PAYMENTSTOPREVOKECBOWS from schema new33_InlineSchema3.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/PAYMENTSTOPINPUTWS from schema new33_InlineSchema4.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/PAYMENTSTOP from schema new33_InlineSchema5.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/IMAGEVIEWFINDNEW from schema new33_InlineSchema7.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/GETLOANDETAILS from schema new33_InlineSchema8.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/FUNDSTRANSFERPSS from schema new33_InlineSchema9.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/FUNDSTRANSFERECX1 from schema new33_InlineSchema10.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/FUNDSTRANSFERACTRMMT from schema new33_InlineSchema11.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/FUNDSTRANSFER from schema new33_InlineSchema12.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/EMMTTXNFT from schema new33_InlineSchema13.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/EMMTMINISTMTDATE from schema new33_InlineSchema14.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/EMMTMINISTMT from schema new33_InlineSchema15.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ECXNEWACCT from schema new33_InlineSchema16.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CURRENCYRATES from schema new33_InlineSchema17.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CHQPRESENTEDWS from schema new33_InlineSchema18.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CHEQUEISSUEINPUTCBOWS from schema new33_InlineSchema19.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CHEQUEISSUE from schema new33_InlineSchema20.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CBOCARDREGDETINP2 from schema new33_InlineSchema21.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CBOCARDREGDET from schema new33_InlineSchema22.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CARDISSUEDELWS from schema new33_InlineSchema23.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/CARDISSUE from schema new33_InlineSchema24.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ATMTRANSACTIONPSS from schema new33_InlineSchema25.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ATMTRANSACTION from schema new33_InlineSchema26.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ATMTERMINALACCTACE from schema new33_InlineSchema27.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ACLOCKEDEVENTSCTS from schema new33_InlineSchema28.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ACLOCKEDEVENTS from schema new33_InlineSchema29.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ACCTVIEW from schema new33_InlineSchema30.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ACCTCOMPANYVIEW from schema new33_InlineSchema31.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ACCTBALCTS from schema new33_InlineSchema32.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://temenos.com/ACCTBAL from schema new33_InlineSchema33.xsd.  This statement was not resolved and is never used.
+Removing unnecessary import statement with namespace http://jaxb.dev.java.net/array from schema new33_InlineSchema34.xsd.  This statement was not resolved and is never used.
+Creating file new33.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_31.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_1.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_12.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_22.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_21.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_34.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_4.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_18.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_19.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_11.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_13.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_23.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_30.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_25.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_3.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_29.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_24.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_9.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_5.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_7.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_2.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_20.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_10.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_6.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_14.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_15.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_26.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_16.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_17.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_8.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_32.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_33.xsd in the workspace.
+Creating file /sampleAPI/RemoteFiles/xsd_27.xsd in the workspace.
+Copying source WSDL new33.wsdl to new33.wsdl.
+
+Elapsed time processing this message definition file: 4.032 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

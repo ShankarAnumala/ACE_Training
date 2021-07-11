@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="T24WebServicesImplService" targetNamespace="http://temenos.com/MMT" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://temenos.com/MMT" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <documentation>
+    <appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <binding hasEncoding="false" imported="true" name="T24WebServicesImplPortBinding" originalBindingStyle="document"/>
+      </MRWSDLAppInfo>
+    </appinfo>
+  </documentation>
+<types>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema>
+<xsd:import namespace="http://temenos.com/MMT" schemaLocation="RemoteFiles/xsd_31.xsd"/>
+</xsd:schema>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+<xsd:schema/>
+</types>
+<message name="callOfs">
+<part element="tns:callOfs" name="parameters"/>
+</message>
+<message name="callOfsResponse">
+<part element="tns:callOfsResponse" name="parameters"/>
+</message>
+<message name="DEBITCARDREQUEST">
+<part element="tns:DEBITCARDREQUEST" name="parameters"/>
+</message>
+<message name="DEBITCARDREQUESTResponse">
+<part element="tns:DEBITCARDREQUESTResponse" name="parameters"/>
+</message>
+<message name="DEBITCARDREQUEST_Validate">
+<part element="tns:DEBITCARDREQUEST_Validate" name="parameters"/>
+</message>
+<message name="DEBITCARDREQUEST_ValidateResponse">
+<part element="tns:DEBITCARDREQUEST_ValidateResponse" name="parameters"/>
+</message>
+<message name="ECXFT">
+<part element="tns:ECXFT" name="parameters"/>
+</message>
+<message name="ECXFTResponse">
+<part element="tns:ECXFTResponse" name="parameters"/>
+</message>
+<message name="ECXFT_Validate">
+<part element="tns:ECXFT_Validate" name="parameters"/>
+</message>
+<message name="ECXFT_ValidateResponse">
+<part element="tns:ECXFT_ValidateResponse" name="parameters"/>
+</message>
+<message name="STOPPAYMENTCHEQUE">
+<part element="tns:STOPPAYMENTCHEQUE" name="parameters"/>
+</message>
+<message name="STOPPAYMENTCHEQUEResponse">
+<part element="tns:STOPPAYMENTCHEQUEResponse" name="parameters"/>
+</message>
+<message name="STOPPAYMENTCHEQUE_Validate">
+<part element="tns:STOPPAYMENTCHEQUE_Validate" name="parameters"/>
+</message>
+<message name="STOPPAYMENTCHEQUE_ValidateResponse">
+<part element="tns:STOPPAYMENTCHEQUE_ValidateResponse" name="parameters"/>
+</message>
+<message name="ECXAccountBal">
+<part element="tns:ECXAccountBal" name="parameters"/>
+</message>
+<message name="ECXAccountBalResponse">
+<part element="tns:ECXAccountBalResponse" name="parameters"/>
+</message>
+<message name="STMTDATE">
+<part element="tns:STMTDATE" name="parameters"/>
+</message>
+<message name="STMTDATEResponse">
+<part element="tns:STMTDATEResponse" name="parameters"/>
+</message>
+<message name="CHEQUESTATUS">
+<part element="tns:CHEQUESTATUS" name="parameters"/>
+</message>
+<message name="CHEQUESTATUSResponse">
+<part element="tns:CHEQUESTATUSResponse" name="parameters"/>
+</message>
+<message name="DEBITACCOUNT">
+<part element="tns:DEBITACCOUNT" name="parameters"/>
+</message>
+<message name="DEBITACCOUNTResponse">
+<part element="tns:DEBITACCOUNTResponse" name="parameters"/>
+</message>
+<message name="MMTFTVIEW">
+<part element="tns:MMTFTVIEW" name="parameters"/>
+</message>
+<message name="MMTFTVIEWResponse">
+<part element="tns:MMTFTVIEWResponse" name="parameters"/>
+</message>
+<message name="MMTSTMT">
+<part element="tns:MMTSTMT" name="parameters"/>
+</message>
+<message name="MMTSTMTResponse">
+<part element="tns:MMTSTMTResponse" name="parameters"/>
+</message>
+<message name="CURRENCYRATES">
+<part element="tns:CURRENCYRATES" name="parameters"/>
+</message>
+<message name="CURRENCYRATESResponse">
+<part element="tns:CURRENCYRATESResponse" name="parameters"/>
+</message>
+<message name="PSSATM">
+<part element="tns:PSSATM" name="parameters"/>
+</message>
+<message name="PSSATMResponse">
+<part element="tns:PSSATMResponse" name="parameters"/>
+</message>
+<message name="PSSATM_Validate">
+<part element="tns:PSSATM_Validate" name="parameters"/>
+</message>
+<message name="PSSATM_ValidateResponse">
+<part element="tns:PSSATM_ValidateResponse" name="parameters"/>
+</message>
+<message name="AccountDetails">
+<part element="tns:AccountDetails" name="parameters"/>
+</message>
+<message name="AccountDetailsResponse">
+<part element="tns:AccountDetailsResponse" name="parameters"/>
+</message>
+<message name="ECXFTReversal">
+<part element="tns:ECXFTReversal" name="parameters"/>
+</message>
+<message name="ECXFTReversalResponse">
+<part element="tns:ECXFTReversalResponse" name="parameters"/>
+</message>
+<message name="ECXFTReversal_Validate">
+<part element="tns:ECXFTReversal_Validate" name="parameters"/>
+</message>
+<message name="ECXFTReversal_ValidateResponse">
+<part element="tns:ECXFTReversal_ValidateResponse" name="parameters"/>
+</message>
+<message name="ACCTBRANCH">
+<part element="tns:ACCTBRANCH" name="parameters"/>
+</message>
+<message name="ACCTBRANCHResponse">
+<part element="tns:ACCTBRANCHResponse" name="parameters"/>
+</message>
+<message name="MMTACCTTXN">
+<part element="tns:MMTACCTTXN" name="parameters"/>
+</message>
+<message name="MMTACCTTXNResponse">
+<part element="tns:MMTACCTTXNResponse" name="parameters"/>
+</message>
+<message name="MMTACCTTXN_Validate">
+<part element="tns:MMTACCTTXN_Validate" name="parameters"/>
+</message>
+<message name="MMTACCTTXN_ValidateResponse">
+<part element="tns:MMTACCTTXN_ValidateResponse" name="parameters"/>
+</message>
+<message name="PSSFT">
+<part element="tns:PSSFT" name="parameters"/>
+</message>
+<message name="PSSFTResponse">
+<part element="tns:PSSFTResponse" name="parameters"/>
+</message>
+<message name="PSSFT_Validate">
+<part element="tns:PSSFT_Validate" name="parameters"/>
+</message>
+<message name="PSSFT_ValidateResponse">
+<part element="tns:PSSFT_ValidateResponse" name="parameters"/>
+</message>
+<message name="CHEQUEBOOKREQUEST">
+<part element="tns:CHEQUEBOOKREQUEST" name="parameters"/>
+</message>
+<message name="CHEQUEBOOKREQUESTResponse">
+<part element="tns:CHEQUEBOOKREQUESTResponse" name="parameters"/>
+</message>
+<message name="CHEQUEBOOKREQUEST_Validate">
+<part element="tns:CHEQUEBOOKREQUEST_Validate" name="parameters"/>
+</message>
+<message name="CHEQUEBOOKREQUEST_ValidateResponse">
+<part element="tns:CHEQUEBOOKREQUEST_ValidateResponse" name="parameters"/>
+</message>
+<message name="RELEASEFUND">
+<part element="tns:RELEASEFUND" name="parameters"/>
+</message>
+<message name="RELEASEFUNDResponse">
+<part element="tns:RELEASEFUNDResponse" name="parameters"/>
+</message>
+<message name="RELEASEFUND_Validate">
+<part element="tns:RELEASEFUND_Validate" name="parameters"/>
+</message>
+<message name="RELEASEFUND_ValidateResponse">
+<part element="tns:RELEASEFUND_ValidateResponse" name="parameters"/>
+</message>
+<message name="PINCHANGEREQINPACE">
+<part element="tns:PINCHANGEREQINPACE" name="parameters"/>
+</message>
+<message name="PINCHANGEREQINPACEResponse">
+<part element="tns:PINCHANGEREQINPACEResponse" name="parameters"/>
+</message>
+<message name="PINCHANGEREQINPACE_Validate">
+<part element="tns:PINCHANGEREQINPACE_Validate" name="parameters"/>
+</message>
+<message name="PINCHANGEREQINPACE_ValidateResponse">
+<part element="tns:PINCHANGEREQINPACE_ValidateResponse" name="parameters"/>
+</message>
+<message name="BLOCKFUNDS">
+<part element="tns:BLOCKFUNDS" name="parameters"/>
+</message>
+<message name="BLOCKFUNDSResponse">
+<part element="tns:BLOCKFUNDSResponse" name="parameters"/>
+</message>
+<message name="BLOCKFUNDS_Validate">
+<part element="tns:BLOCKFUNDS_Validate" name="parameters"/>
+</message>
+<message name="BLOCKFUNDS_ValidateResponse">
+<part element="tns:BLOCKFUNDS_ValidateResponse" name="parameters"/>
+</message>
+<message name="ACCOUNTSUMMARY">
+<part element="tns:ACCOUNTSUMMARY" name="parameters"/>
+</message>
+<message name="ACCOUNTSUMMARYResponse">
+<part element="tns:ACCOUNTSUMMARYResponse" name="parameters"/>
+</message>
+<message name="GETLOANDETAILS">
+<part element="tns:GETLOANDETAILS" name="parameters"/>
+</message>
+<message name="GETLOANDETAILSResponse">
+<part element="tns:GETLOANDETAILSResponse" name="parameters"/>
+</message>
+<message name="REVOKESTOPPAYMENTCHEQUE">
+<part element="tns:REVOKESTOPPAYMENTCHEQUE" name="parameters"/>
+</message>
+<message name="REVOKESTOPPAYMENTCHEQUEResponse">
+<part element="tns:REVOKESTOPPAYMENTCHEQUEResponse" name="parameters"/>
+</message>
+<message name="REVOKESTOPPAYMENTCHEQUE_Validate">
+<part element="tns:REVOKESTOPPAYMENTCHEQUE_Validate" name="parameters"/>
+</message>
+<message name="REVOKESTOPPAYMENTCHEQUE_ValidateResponse">
+<part element="tns:REVOKESTOPPAYMENTCHEQUE_ValidateResponse" name="parameters"/>
+</message>
+<message name="MMTACCTBALANCE">
+<part element="tns:MMTACCTBALANCE" name="parameters"/>
+</message>
+<message name="MMTACCTBALANCEResponse">
+<part element="tns:MMTACCTBALANCEResponse" name="parameters"/>
+</message>
+<message name="IMAGEVIEW">
+<part element="tns:IMAGEVIEW" name="parameters"/>
+</message>
+<message name="IMAGEVIEWResponse">
+<part element="tns:IMAGEVIEWResponse" name="parameters"/>
+</message>
+<message name="ACCOUNTVIEW">
+<part element="tns:ACCOUNTVIEW" name="parameters"/>
+</message>
+<message name="ACCOUNTVIEWResponse">
+<part element="tns:ACCOUNTVIEWResponse" name="parameters"/>
+</message>
+<message name="ECXNEWACCT">
+<part element="tns:ECXNEWACCT" name="parameters"/>
+</message>
+<message name="ECXNEWACCTResponse">
+<part element="tns:ECXNEWACCTResponse" name="parameters"/>
+</message>
+<message name="CancelDebitCard">
+<part element="tns:CancelDebitCard" name="parameters"/>
+</message>
+<message name="CancelDebitCardResponse">
+<part element="tns:CancelDebitCardResponse" name="parameters"/>
+</message>
+<message name="CancelDebitCard_Validate">
+<part element="tns:CancelDebitCard_Validate" name="parameters"/>
+</message>
+<message name="CancelDebitCard_ValidateResponse">
+<part element="tns:CancelDebitCard_ValidateResponse" name="parameters"/>
+</message>
+<portType name="T24WebServicesImpl">
+<operation name="callOfs">
+<input message="tns:callOfs" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/callOfsRequest"/>
+<output message="tns:callOfsResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/callOfsResponse"/>
+</operation>
+<operation name="DEBITCARDREQUEST">
+<input message="tns:DEBITCARDREQUEST" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/DEBITCARDREQUESTRequest"/>
+<output message="tns:DEBITCARDREQUESTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/DEBITCARDREQUESTResponse"/>
+</operation>
+<operation name="DEBITCARDREQUEST_Validate">
+<input message="tns:DEBITCARDREQUEST_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/DEBITCARDREQUEST_ValidateRequest"/>
+<output message="tns:DEBITCARDREQUEST_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/DEBITCARDREQUEST_ValidateResponse"/>
+</operation>
+<operation name="ECXFT">
+<input message="tns:ECXFT" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFTRequest"/>
+<output message="tns:ECXFTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFTResponse"/>
+</operation>
+<operation name="ECXFT_Validate">
+<input message="tns:ECXFT_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFT_ValidateRequest"/>
+<output message="tns:ECXFT_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFT_ValidateResponse"/>
+</operation>
+<operation name="STOPPAYMENTCHEQUE">
+<input message="tns:STOPPAYMENTCHEQUE" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/STOPPAYMENTCHEQUERequest"/>
+<output message="tns:STOPPAYMENTCHEQUEResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/STOPPAYMENTCHEQUEResponse"/>
+</operation>
+<operation name="STOPPAYMENTCHEQUE_Validate">
+<input message="tns:STOPPAYMENTCHEQUE_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/STOPPAYMENTCHEQUE_ValidateRequest"/>
+<output message="tns:STOPPAYMENTCHEQUE_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/STOPPAYMENTCHEQUE_ValidateResponse"/>
+</operation>
+<operation name="ECXAccountBal">
+<input message="tns:ECXAccountBal" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXAccountBalRequest"/>
+<output message="tns:ECXAccountBalResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXAccountBalResponse"/>
+</operation>
+<operation name="STMTDATE">
+<input message="tns:STMTDATE" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/STMTDATERequest"/>
+<output message="tns:STMTDATEResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/STMTDATEResponse"/>
+</operation>
+<operation name="CHEQUESTATUS">
+<input message="tns:CHEQUESTATUS" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CHEQUESTATUSRequest"/>
+<output message="tns:CHEQUESTATUSResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CHEQUESTATUSResponse"/>
+</operation>
+<operation name="DEBITACCOUNT">
+<input message="tns:DEBITACCOUNT" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/DEBITACCOUNTRequest"/>
+<output message="tns:DEBITACCOUNTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/DEBITACCOUNTResponse"/>
+</operation>
+<operation name="MMTFTVIEW">
+<input message="tns:MMTFTVIEW" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTFTVIEWRequest"/>
+<output message="tns:MMTFTVIEWResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTFTVIEWResponse"/>
+</operation>
+<operation name="MMTSTMT">
+<input message="tns:MMTSTMT" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTSTMTRequest"/>
+<output message="tns:MMTSTMTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTSTMTResponse"/>
+</operation>
+<operation name="CURRENCYRATES">
+<input message="tns:CURRENCYRATES" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CURRENCYRATESRequest"/>
+<output message="tns:CURRENCYRATESResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CURRENCYRATESResponse"/>
+</operation>
+<operation name="PSSATM">
+<input message="tns:PSSATM" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSATMRequest"/>
+<output message="tns:PSSATMResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSATMResponse"/>
+</operation>
+<operation name="PSSATM_Validate">
+<input message="tns:PSSATM_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSATM_ValidateRequest"/>
+<output message="tns:PSSATM_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSATM_ValidateResponse"/>
+</operation>
+<operation name="AccountDetails">
+<input message="tns:AccountDetails" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/AccountDetailsRequest"/>
+<output message="tns:AccountDetailsResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/AccountDetailsResponse"/>
+</operation>
+<operation name="ECXFTReversal">
+<input message="tns:ECXFTReversal" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFTReversalRequest"/>
+<output message="tns:ECXFTReversalResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFTReversalResponse"/>
+</operation>
+<operation name="ECXFTReversal_Validate">
+<input message="tns:ECXFTReversal_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFTReversal_ValidateRequest"/>
+<output message="tns:ECXFTReversal_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXFTReversal_ValidateResponse"/>
+</operation>
+<operation name="ACCTBRANCH">
+<input message="tns:ACCTBRANCH" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ACCTBRANCHRequest"/>
+<output message="tns:ACCTBRANCHResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ACCTBRANCHResponse"/>
+</operation>
+<operation name="MMTACCTTXN">
+<input message="tns:MMTACCTTXN" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTACCTTXNRequest"/>
+<output message="tns:MMTACCTTXNResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTACCTTXNResponse"/>
+</operation>
+<operation name="MMTACCTTXN_Validate">
+<input message="tns:MMTACCTTXN_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTACCTTXN_ValidateRequest"/>
+<output message="tns:MMTACCTTXN_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTACCTTXN_ValidateResponse"/>
+</operation>
+<operation name="PSSFT">
+<input message="tns:PSSFT" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSFTRequest"/>
+<output message="tns:PSSFTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSFTResponse"/>
+</operation>
+<operation name="PSSFT_Validate">
+<input message="tns:PSSFT_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSFT_ValidateRequest"/>
+<output message="tns:PSSFT_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PSSFT_ValidateResponse"/>
+</operation>
+<operation name="CHEQUEBOOKREQUEST">
+<input message="tns:CHEQUEBOOKREQUEST" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CHEQUEBOOKREQUESTRequest"/>
+<output message="tns:CHEQUEBOOKREQUESTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CHEQUEBOOKREQUESTResponse"/>
+</operation>
+<operation name="CHEQUEBOOKREQUEST_Validate">
+<input message="tns:CHEQUEBOOKREQUEST_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CHEQUEBOOKREQUEST_ValidateRequest"/>
+<output message="tns:CHEQUEBOOKREQUEST_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CHEQUEBOOKREQUEST_ValidateResponse"/>
+</operation>
+<operation name="RELEASEFUND">
+<input message="tns:RELEASEFUND" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/RELEASEFUNDRequest"/>
+<output message="tns:RELEASEFUNDResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/RELEASEFUNDResponse"/>
+</operation>
+<operation name="RELEASEFUND_Validate">
+<input message="tns:RELEASEFUND_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/RELEASEFUND_ValidateRequest"/>
+<output message="tns:RELEASEFUND_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/RELEASEFUND_ValidateResponse"/>
+</operation>
+<operation name="PINCHANGEREQINPACE">
+<input message="tns:PINCHANGEREQINPACE" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PINCHANGEREQINPACERequest"/>
+<output message="tns:PINCHANGEREQINPACEResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PINCHANGEREQINPACEResponse"/>
+</operation>
+<operation name="PINCHANGEREQINPACE_Validate">
+<input message="tns:PINCHANGEREQINPACE_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PINCHANGEREQINPACE_ValidateRequest"/>
+<output message="tns:PINCHANGEREQINPACE_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/PINCHANGEREQINPACE_ValidateResponse"/>
+</operation>
+<operation name="BLOCKFUNDS">
+<input message="tns:BLOCKFUNDS" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/BLOCKFUNDSRequest"/>
+<output message="tns:BLOCKFUNDSResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/BLOCKFUNDSResponse"/>
+</operation>
+<operation name="BLOCKFUNDS_Validate">
+<input message="tns:BLOCKFUNDS_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/BLOCKFUNDS_ValidateRequest"/>
+<output message="tns:BLOCKFUNDS_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/BLOCKFUNDS_ValidateResponse"/>
+</operation>
+<operation name="ACCOUNTSUMMARY">
+<input message="tns:ACCOUNTSUMMARY" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ACCOUNTSUMMARYRequest"/>
+<output message="tns:ACCOUNTSUMMARYResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ACCOUNTSUMMARYResponse"/>
+</operation>
+<operation name="GETLOANDETAILS">
+<input message="tns:GETLOANDETAILS" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/GETLOANDETAILSRequest"/>
+<output message="tns:GETLOANDETAILSResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/GETLOANDETAILSResponse"/>
+</operation>
+<operation name="REVOKESTOPPAYMENTCHEQUE">
+<input message="tns:REVOKESTOPPAYMENTCHEQUE" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/REVOKESTOPPAYMENTCHEQUERequest"/>
+<output message="tns:REVOKESTOPPAYMENTCHEQUEResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/REVOKESTOPPAYMENTCHEQUEResponse"/>
+</operation>
+<operation name="REVOKESTOPPAYMENTCHEQUE_Validate">
+<input message="tns:REVOKESTOPPAYMENTCHEQUE_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/REVOKESTOPPAYMENTCHEQUE_ValidateRequest"/>
+<output message="tns:REVOKESTOPPAYMENTCHEQUE_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/REVOKESTOPPAYMENTCHEQUE_ValidateResponse"/>
+</operation>
+<operation name="MMTACCTBALANCE">
+<input message="tns:MMTACCTBALANCE" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTACCTBALANCERequest"/>
+<output message="tns:MMTACCTBALANCEResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/MMTACCTBALANCEResponse"/>
+</operation>
+<operation name="IMAGEVIEW">
+<input message="tns:IMAGEVIEW" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/IMAGEVIEWRequest"/>
+<output message="tns:IMAGEVIEWResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/IMAGEVIEWResponse"/>
+</operation>
+<operation name="ACCOUNTVIEW">
+<input message="tns:ACCOUNTVIEW" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ACCOUNTVIEWRequest"/>
+<output message="tns:ACCOUNTVIEWResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ACCOUNTVIEWResponse"/>
+</operation>
+<operation name="ECXNEWACCT">
+<input message="tns:ECXNEWACCT" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXNEWACCTRequest"/>
+<output message="tns:ECXNEWACCTResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/ECXNEWACCTResponse"/>
+</operation>
+<operation name="CancelDebitCard">
+<input message="tns:CancelDebitCard" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CancelDebitCardRequest"/>
+<output message="tns:CancelDebitCardResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CancelDebitCardResponse"/>
+</operation>
+<operation name="CancelDebitCard_Validate">
+<input message="tns:CancelDebitCard_Validate" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CancelDebitCard_ValidateRequest"/>
+<output message="tns:CancelDebitCard_ValidateResponse" wsam:Action="http://temenos.com/MMT/T24WebServicesImpl/CancelDebitCard_ValidateResponse"/>
+</operation>
+</portType>
+<binding name="T24WebServicesImplPortBinding" type="tns:T24WebServicesImpl">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="callOfs">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="DEBITCARDREQUEST">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="DEBITCARDREQUEST_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ECXFT">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ECXFT_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="STOPPAYMENTCHEQUE">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="STOPPAYMENTCHEQUE_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ECXAccountBal">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="STMTDATE">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CHEQUESTATUS">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="DEBITACCOUNT">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="MMTFTVIEW">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="MMTSTMT">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CURRENCYRATES">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="PSSATM">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="PSSATM_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="AccountDetails">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ECXFTReversal">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ECXFTReversal_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ACCTBRANCH">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="MMTACCTTXN">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="MMTACCTTXN_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="PSSFT">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="PSSFT_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CHEQUEBOOKREQUEST">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CHEQUEBOOKREQUEST_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="RELEASEFUND">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="RELEASEFUND_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="PINCHANGEREQINPACE">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="PINCHANGEREQINPACE_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="BLOCKFUNDS">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="BLOCKFUNDS_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ACCOUNTSUMMARY">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="GETLOANDETAILS">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="REVOKESTOPPAYMENTCHEQUE">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="REVOKESTOPPAYMENTCHEQUE_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="MMTACCTBALANCE">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="IMAGEVIEW">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ACCOUNTVIEW">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="ECXNEWACCT">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CancelDebitCard">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="CancelDebitCard_Validate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+</binding>
+<service name="T24WebServicesImplService">
+<port binding="tns:T24WebServicesImplPortBinding" name="T24WebServicesImplPort">
+<soap:address location="http://10.1.245.189:9081/TWSMMT/services"/>
+</port>
+</service>
+</definitions>

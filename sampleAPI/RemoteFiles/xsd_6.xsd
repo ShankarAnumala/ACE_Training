@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/EMMTMINISTMTDATE" version="1.0">
+
+<xsd:complexType name="EMMTMINISTMTDATEType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="gEMMTMINISTMTDATEDetailType">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="mEMMTMINISTMTDATEDetailType">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="selFldACCOUNT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="selFldBOOKINGDATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="selFldNOOFRECS" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TXNREF" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CRAMT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DRAMT" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DATE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DESC" type="xsd:string"/>
+<xsd:element minOccurs="0" name="BALANCE" type="xsd:string"/>
+<xsd:element minOccurs="0" name="NAME" type="xsd:string"/>
+<xsd:element minOccurs="0" name="PHONE" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="m" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.8 svn-revision#13980. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://temenos.com/FUNDSTRANSFERACTRMMT" version="1.0">
+
+<xsd:complexType name="FUNDSTRANSFERACTRMMTType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="DebitAccount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DebitCurrency" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DebitAmount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DebitValueDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="DebitNarrative" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CreditNarrative" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CreditAccount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CreditCurrency" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CreditAmount" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CreditValueDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="TreasuryRate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gORDERINGCUST">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="OrderedBy" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="CustomerSpread" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AmountDebited" type="xsd:string"/>
+<xsd:element minOccurs="0" name="AmountCredited" type="xsd:string"/>
+<xsd:element minOccurs="0" name="CustomerRate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gDELIVERYOUTREF">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="DeliveryReference" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="RoundingType" type="xsd:string"/>
+<xsd:element minOccurs="0" name="gSIGNATORY">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Signatory" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="g" type="xsd:positiveInteger"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="MMTTransactionId" type="xsd:string"/>
+</xsd:sequence>
+<xsd:attribute name="id" type="xsd:string"/>
+</xsd:complexType>
+</xsd:schema>
